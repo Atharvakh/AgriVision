@@ -1,0 +1,122 @@
+.homeProducts {
+  margin-bottom: 200px;
+  padding: 25px 0px;
+  height: 700px;
+}
+
+.homeProducts .productRow {
+  display: flex;
+  padding: 25px;
+  flex-wrap: wrap;
+}
+
+.homeProducts .productRow .item {
+  width: 20%;
+  padding: 15px 15px;
+}
+
+.productRow {
+  display: flex;
+  justify-content: center;
+}
+
+/* General Styling */
+.newsLetterSection {
+  background-color: #f9f9f9; /* Light gray background for contrast */
+  padding: 40px 20px; /* Space around the section */
+  text-align: center;
+}
+
+/* Container Styling */
+.newsLetterSection .container-fluid {
+  max-width: 1200px; /* Limit the width of the content */
+  margin: 0 auto; /* Center the container */
+}
+
+/* Box Styling */
+.newsLetterSection .box {
+  background-color: #ffffff; /* White background for the content box */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+  padding: 20px 30px; /* Space inside the box */
+}
+
+.d-flex {
+  display: flex;
+  align-items: center; /* Aligns items vertically */
+  justify-content: center; /* Aligns items horizontally */
+  height: 100%; /* Ensure the parent has a height set */
+  width: 100%; /* Optional: Ensures full width for horizontal centering */
+}
+
+.text-center {
+  text-align: center; /* Ensures the text itself is centered */
+}
+
+.align-items-center {
+  /* Additional alignment can be applied here if needed */
+}
+
+/* Heading Styling */
+.newsLetterSection h2 {
+  font-size: 24px; /* Adjust heading size */
+  color: #333333; /* Dark gray text color */
+  margin-bottom: 20px; /* Space below the heading */
+  font-weight: 600; /* Slightly bold */
+  text-align: center; /* Center the heading */
+}
+
+/* Form Styling */
+.newsLetterSection .newsletter-form {
+  display: flex;
+  flex-wrap: wrap; /* Allow wrapping for smaller screens */
+  justify-content: center; /* Center form elements */
+  gap: 10px; /* Space between elements */
+}
+
+.newsLetterSection .form-control {
+  width: 500px; /* Set a consistent width */
+  padding: 10px; /* Add padding inside the input */
+  border: 1px solid #ccc; /* Light border */
+  border-radius: 4px; /* Rounded corners */
+  font-size: 16px; /* Adjust font size */
+  outline: none; /* Remove default outline */
+  transition: border-color 0.3s ease; /* Smooth transition on focus */
+}
+
+.newsLetterSection .form-control:focus {
+  border-color: #88b855; /* Highlight border on focus */
+  box-shadow: 0 0 4px rgb(61, 143, 71); /* Add subtle glow */
+}
+
+/* Button Styling */
+.newsLetterSection .btn-primary {
+  background-color: #88b855;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 40%;
+  transition: background-color 0.3s ease;
+}
+
+.newsLetterSection .btn-primary:hover {
+  background-color: rgb(61, 143, 71); /* Darker shade on hover */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .newsLetterSection h2 {
+    font-size: 20px;
+  }
+
+  .newsLetterSection .form-control {
+    width: 100%;
+  }
+
+  .newsLetterSection .btn-primary {
+    width: 100%; /* Full width button on small screens */
+  }
+}
