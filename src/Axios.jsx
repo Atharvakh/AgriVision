@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Function to create Axios instance
 const Axios = (
-  baseURL = "http://localhost:8080/api/v1/auth/",
+  baseURL = `https://spring-bootagrivision-production.up.railway.app/api/v1/auth/`,
   additionalHeaders = {}
 ) => {
   return axios.create({

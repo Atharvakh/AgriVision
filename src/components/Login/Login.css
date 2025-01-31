@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 85vh;
   background-color: #f9f9f9;
 }
 
@@ -40,7 +40,7 @@ h2 {
 .btn-primary {
   width: 100%;
   padding: 10px;
-  background-color: #3bb77e;
+  background-color: #32a76c;
   color: white;
   border: none;
   border-radius: 5px;
@@ -48,7 +48,7 @@ h2 {
 }
 
 .btn-primary:hover {
-  background-color: #32a76c;
+  background-color: #28a745;
 }
 
 .signup-link {

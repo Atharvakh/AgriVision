@@ -1,26 +1,25 @@
+/* Home.module.css */
 .homeProducts {
-  margin-bottom: 200px;
-  padding: 25px 0px;
-  height: 700px;
+  padding: 4rem 0;
+  margin-bottom: 8rem;
+  min-height: 700px;
+  width: 100%;
 }
 
-.homeProducts .productRow {
-  display: flex;
-  padding: 25px;
-  flex-wrap: wrap;
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 1rem;
 }
 
-.homeProducts .productRow .item {
-  width: 20%;
-  padding: 15px 15px;
+.productGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  padding: 1rem;
 }
 
-.productRow {
-  display: flex;
-  justify-content: center;
-}
-
-/* General Styling */
+/* Newsletter Section */
 .newsLetterSection {
   background-color: #f9f9f9; /* Light gray background for contrast */
   padding: 40px 20px; /* Space around the section */
@@ -51,10 +50,6 @@
 
 .text-center {
   text-align: center; /* Ensures the text itself is centered */
-}
-
-.align-items-center {
-  /* Additional alignment can be applied here if needed */
 }
 
 /* Heading Styling */

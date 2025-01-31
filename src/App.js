@@ -5,6 +5,8 @@ import Home from "./pages/Home/index";
 import LoginPage from "./components/Login/Login";
 import SignUpPage from "./components/Login/Register";
 import Details from "./components/product/Details";
+import AboutUs from "./components/aboutUs/about";
+import Contact from "./components/contact/contact";
 
 //import TempBody from "./components/Body/tempbody";
 // Remove unused imports
@@ -21,6 +23,8 @@ const App = () => {
         <Route path="login" element={<LoginPage />} />
         <Route path="signup" element={<SignUpPage />} />
         <Route path="Details" element={<Details />} />
+        <Route path="about" element={<AboutUs />} />
+        <Route path="contact" element={<Contact />} />
       </Routes>
     </Router>
   );
