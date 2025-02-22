@@ -6,11 +6,11 @@ import Slide2 from "../../../../src/assets/images/slider2.jpg";
 
 const HomeSlider = () => {
   var settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
-    slidesToScroll: 2,
+    slidesToScroll: 1,
     fade: true,
     autoplay: true,
     autoplayspeed: 500,
