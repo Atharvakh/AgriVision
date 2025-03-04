@@ -3,7 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { Login } from "@mui/icons-material";
+import LoginIcon from "@mui/icons-material/Login";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import LogoutIcon from "@mui/icons-material/Logout";
 import Logo from "../../assets/images/AgriVision (8).png";
 import "../header/header.css";
 
@@ -12,9 +14,25 @@ const Header = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [noResults, setNoResults] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const headerRef = useRef();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const checkLoginStatus = () => {
+      const token = localStorage.getItem("token");
+      setIsLoggedIn(!!token);
+      setShowProfileDropdown(false); // Ensure dropdown is closed after login
+    };
+
+    checkLoginStatus();
+    window.addEventListener("loginStatusChanged", checkLoginStatus);
+
+    return () => {
+      window.removeEventListener("loginStatusChanged", checkLoginStatus);
+    };
+  }, []);
   // Debounced search effect
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
@@ -24,12 +42,11 @@ const Header = () => {
         setSearchResults([]);
         setNoResults(false);
       }
-    }, 500); // 500ms delay
+    }, 500);
 
     return () => clearTimeout(delayDebounceFn);
   }, [query]);
 
-  // API Call to Fetch Search Results
   const handleSearch = async () => {
     if (!query.trim()) return;
 
@@ -82,16 +99,20 @@ const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Handle Input Change
-  const handleInputChange = (e) => {
-    setQuery(e.target.value);
-  };
+  const handleInputChange = (e) => setQuery(e.target.value);
 
-  // Handle Search on Enter Key Press
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       handleSearch();
     }
+  };
+
+  const toggleDropdown = () => setShowProfileDropdown((prev) => !prev);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token"); // Remove user data
+    setIsLoggedIn(false);
+    navigate("/login");
   };
 
   return (
@@ -112,22 +133,10 @@ const Header = () => {
               placeholder="Search here for product..."
               value={query}
               onChange={handleInputChange}
-              onKeyDown={handleKeyDown} // Fixed deprecated onKeyPress
+              onKeyDown={handleKeyDown}
             />
             <SearchIcon className="search-icon" onClick={handleSearch} />
           </div>
-        </div>
-
-        {/* Search Results Dropdown */}
-        <div
-          className={`transition-all duration-300 ease-in-out overflow-hidden ${
-            noResults ? "h-0" : "h-auto"
-          }`}
-          style={{ display: noResults ? "none" : "block" }}
-        >
-          {loading && <p>Loading...</p>}
-
-          {noResults && !loading && <p>No results found</p>}
         </div>
 
         {/* Navigation Tabs */}
@@ -140,10 +149,39 @@ const Header = () => {
             <ShoppingCartIcon className="header-icon" />
             Cart
           </Link>
-          <Link to="/login" className="header-link">
-            <Login className="header-icon" />
-            Log In
-          </Link>
+
+          {/* Login or Profile Button */}
+          {isLoggedIn ? (
+            <div className="profile-wrapper">
+              {/* Profile button with toggle functionality */}
+              <div
+                className="header-link profile-btn"
+                onMouseEnter={() => setShowProfileDropdown(true)}
+              >
+                <AccountCircleIcon className="header-icon" />
+                View Profile
+              </div>
+
+              {/* Dropdown should only be shown when showProfileDropdown is true */}
+              {showProfileDropdown && (
+                <div
+                  className="profile-dropdown"
+                  onMouseEnter={() => setShowProfileDropdown(true)} // Keeps it open when hovering
+                  onMouseLeave={() => setShowProfileDropdown(false)} // Closes when leaving
+                >
+                  <Link to="/profile">My Profile</Link>
+                  <Link to="#" onClick={handleLogout}>
+                    <LogoutIcon className="header-icon" /> Logout
+                  </Link>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Link to="/login" className="header-link">
+              <LoginIcon className="header-icon" />
+              Log In
+            </Link>
+          )}
         </div>
       </div>
     </header>
