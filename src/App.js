@@ -1,9 +1,9 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import ManageAdd from "./Admin/AdManageMent/ManageAdd";
 import ManageLogo from "./Admin/AdManageMent/ManageLogo";
 import HomeAdmin from "./Admin/Dashboard/Home";
-import { default as Setting } from "./Admin/Dashboard/Setting";
+import Setting from "./Admin/Dashboard/Setting";
 import Team from "./Admin/Dashboard/Team";
 import OrderHistory from "./Admin/HelpDesk/OrderHistory";
 import SupportRequest from "./Admin/HelpDesk/SupportRequest";
@@ -18,17 +18,32 @@ import AboutUs from "./components/aboutUs/about";
 import Contact from "./components/contact/contact";
 import LoginPage from "./components/Login/Login";
 import SignUpPage from "./components/Login/Register";
+import Product from "./components/product";
 import Details from "./components/product/Details";
 import Home from "./pages/Home/index";
-
 // Remove unused imports
 // import TempBody from "./components/Body/tempbody";
 // import LoginPage from "./components/Login/Login";
 // import SignUpPage from "./components/Login/Register";
 
+// const App = () => {
+//   return (
+//     <Router>
+// {/* import { Routes, Route } from "react-router-dom";
+// import Header from "./components/header/header";
+// import Home from "./pages/Home/index";
+// import LoginPage from "./components/Login/Login";
+// import SignUpPage from "./components/Login/Register";
+// import Details from "./components/product/Details";
+// import AboutUs from "./components/aboutUs/about";
+// import Contact from "./components/contact/contact";
+// import Product from "./components/product/index";
+// import SearchResults from "./pages/searchResult"; */}
+
 const App = () => {
   return (
-    <Router>
+    <>
+      {/* <Header /> */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="AdminLogin" element={<AdminLoginPage />} />
@@ -55,8 +70,10 @@ const App = () => {
           <Route path="HelpDesk/Orderhistory" element={<OrderHistory />} />
           <Route path="HelpDesk/SupportRequest" element={<SupportRequest />} />
         </Route>
+        <Route path="/product/:id" element={<Product />} />
+        {/* <Route path="/search-results" element={<SearchResults />} /> */}
       </Routes>
-    </Router>
+    </>
   );
 };
 

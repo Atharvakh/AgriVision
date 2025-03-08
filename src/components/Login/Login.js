@@ -13,9 +13,8 @@ const LoginPage = () => {
     setError(""); // Reset error before new request
 
     try {
-      // Send login request to the server using fetch
       const response = await fetch(
-        "https://spring-bootagrivision-production.up.railway.app/api/v1/auth/user/login",
+        "https://spring-boot-agrivision-1.onrender.com/api/v1/auth/user/login",
         {
           method: "POST",
           headers: {
@@ -32,13 +31,15 @@ const LoginPage = () => {
 
       if (response.ok) {
         localStorage.setItem("token", data.token); // Store token in localStorage
+
+        // Dispatch a custom event to notify other components (Header) about login
+        window.dispatchEvent(new Event("loginStatusChanged"));
+
         navigate("/"); // Redirect to dashboard after successful login
       } else {
-        // Handle errors from the API
         setError(data.message || "Login failed. Try again.");
       }
     } catch (error) {
-      // Handle network or other errors
       setError("An error occurred. Please try again.");
     }
   };

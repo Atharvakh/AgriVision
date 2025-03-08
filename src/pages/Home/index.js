@@ -1,26 +1,43 @@
-import React from "react";
+import { React, useEffect, useState } from "react";
 import CatSlider from "../../components/catSlider";
 import Footer from "../../components/footer/footer";
 import Header from "../../components/header/header";
 import Product from "../../components/product/index";
+import { useProductContext } from "../../context/AppContext"; //
 import HomeSlider from "./slider/index";
-import styles from "./styles.css";
 
 const Home = () => {
+  const { products } = useProductContext();
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
+  console.log("Selected Category:", selectedCategory);
+  console.log("Products from context:", products);
+
+  const normalizeCategory = (category) => {
+    if (!category) return "";
+    return category
+      .toLowerCase()
+      .trim()
+      .replace("bio-fertlizer", "bio-fertilizer"); // Fix typo
+  };
+
+  const filteredProducts =
+    selectedCategory && selectedCategory !== "all"
+      ? products.filter(
+          (product) => normalizeCategory(product.category) === selectedCategory
+        )
+      : products;
+
+  useEffect(() => {
+    console.log("Filtered Products:", filteredProducts);
+  }, [selectedCategory]);
+
   return (
     <>
     <Header />
       <HomeSlider />
-      <CatSlider />
-
-      <section className={styles.homeProducts}>
-        <div className={styles.container}>
-          <h2 className={styles.textCenter}>Products</h2>
-          <div className={styles.productGrid}>
-            <Product />
-          </div>
-        </div>
-      </section>
+      <CatSlider setSelectedCategory={setSelectedCategory} />
+      <Product data={selectedCategory ? filteredProducts : products} />
 
       <section className="newsLetterSection">
         <div className="container-fluid">
@@ -42,7 +59,6 @@ const Home = () => {
           </div>
         </div>
       </section>
-
       <Footer />
     </>
   );
