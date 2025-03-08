@@ -73,10 +73,19 @@ const LoginPage = () => {
             Log In
           </button>
         </form>
+        <br/>
         <p>
           Don't have an account?{" "}
-          <Link to="/signup" className="signup-link">
+          <Link to="/signup" className="p-4 signup-link">
             Sign Up
+          </Link>
+        </p>
+        <br/>
+        <br/>
+        <p>
+          Login As Admin?{" "}
+          <Link to="/AdminLogin" className="signup-link">
+            Admin Login
           </Link>
         </p>
       </div>

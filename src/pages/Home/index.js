@@ -1,13 +1,15 @@
 import React from "react";
-import styles from "./styles.css";
-import HomeSlider from "./slider/index";
 import CatSlider from "../../components/catSlider";
-import Product from "../../components/product/index";
 import Footer from "../../components/footer/footer";
+import Header from "../../components/header/header";
+import Product from "../../components/product/index";
+import HomeSlider from "./slider/index";
+import styles from "./styles.css";
 
 const Home = () => {
   return (
     <>
+    <Header />
       <HomeSlider />
       <CatSlider />
 

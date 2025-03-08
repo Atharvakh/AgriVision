@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Heart, ShoppingCart, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Heart } from "lucide-react";
+import React, { useEffect, useState } from "react";
 import "./style.css"; // Ensure this path is correct
 
 const Product = () => {
