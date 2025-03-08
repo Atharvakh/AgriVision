@@ -71,7 +71,7 @@ const SignUpPage = () => {
       try {
         // Use the preconfigured axiosInstance for the API request
         const response = await fetch(
-          `https://spring-bootagrivision-production.up.railway.app/api/v1/auth/user/register`,
+          `https://spring-boot-agrivision-1.onrender.com/api/v1/auth/user/register`,
           {
             method: "POST",
             headers: {
