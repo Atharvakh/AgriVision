@@ -16,7 +16,7 @@ export const AppProvider = ({ children }) => {
       setError(null);
 
       const response = await fetch(
-        `https://spring-bootagrivision-production.up.railway.app/api/v1/auth/user/product`,
+        `https://spring-boot-agrivision-1.onrender.com/api/v1/auth/user/product`,
         {
           method: "POST",
           headers: {
@@ -44,7 +44,7 @@ export const AppProvider = ({ children }) => {
   const getSingleProduct = async (id) => {
     try {
       const response = await fetch(
-        `https://spring-bootagrivision-production.up.railway.app/api/v1/auth/user/product/id/${id}`,
+        `https://spring-boot-agrivision-1.onrender.com/api/v1/auth/user/product/id/${id}`,
         {
           method: "POST",
           headers: {
