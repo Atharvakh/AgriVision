@@ -1,51 +1,43 @@
-import React, { useEffect, useState } from "react";
-import HomeSlider from "./slider/index";
+import { React, useEffect, useState } from "react";
 import CatSlider from "../../components/catSlider";
-import "./styles.css";
 import Footer from "../../components/footer/footer";
-import Product from "../../components/product";
-import Axios from "../../Axios";
+import Header from "../../components/header/header";
+import Product from "../../components/product/index";
+import { useProductContext } from "../../context/AppContext"; //
+import HomeSlider from "./slider/index";
 
-const home = () => {
-  const [data, setData] = useState([]); // Store fetched data in state
+const Home = () => {
+  const { products } = useProductContext();
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
-  // Fetch the data from the API when the component mounts
+  console.log("Selected Category:", selectedCategory);
+  console.log("Products from context:", products);
+
+  const normalizeCategory = (category) => {
+    if (!category) return "";
+    return category
+      .toLowerCase()
+      .trim()
+      .replace("bio-fertlizer", "bio-fertilizer"); // Fix typo
+  };
+
+  const filteredProducts =
+    selectedCategory && selectedCategory !== "all"
+      ? products.filter(
+          (product) => normalizeCategory(product.category) === selectedCategory
+        )
+      : products;
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await Axios().get("/user/ViewAllBooster"); // Replace with your actual API endpoint
-        setData(response.data); // Set the fetched data in state
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+    console.log("Filtered Products:", filteredProducts);
+  }, [selectedCategory]);
 
-    fetchData();
-  }, []); // Empty dependency array means this effect runs once when the component mounts
-  //console.log("Rendering HomeSlider...");
   return (
     <>
+    <Header />
       <HomeSlider />
-      <CatSlider />
-
-      <section className="homeProducts">
-        <div className="container-fluid">
-          <div className="d-flex align-items-center justify-content-center">
-            <h2 className="text-center">Products</h2>
-          </div>
-
-          <div className="d-flex">
-            {/* Map through the data and render a Card for each item */}
-            {data.map((item, index) => (
-              <Cardboost data={item} key={index} index={index} />
-            ))}
-
-            <Product />
-            <Product />
-            <Product />
-          </div>
-        </div>
-      </section>
+      <CatSlider setSelectedCategory={setSelectedCategory} />
+      <Product data={selectedCategory ? filteredProducts : products} />
 
       <section className="newsLetterSection">
         <div className="container-fluid">
@@ -72,4 +64,4 @@ const home = () => {
   );
 };
 
-export default home;
+export default Home;

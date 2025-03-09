@@ -1,45 +1,75 @@
-import React from "react";
-import Roundup from "../../assets/images/Roundup.jpg";
-import "./style.css";
-import Rating from "@mui/material/Rating";
-import { Link } from "react-router-dom";
-import { ShoppingCartOutlined } from "@mui/icons-material";
-import { Button } from "@mui/material";
-import { FavoriteBorderOutlined } from "@mui/icons-material";
+import { ArrowUpRight, Heart, ShoppingCart } from "lucide-react";
+import { React } from "react";
+import { useNavigate } from "react-router-dom";
+import "./style.css"; // Ensure this path is correct
 
-const Product = () => {
+const Product = ({ data = [] }) => {
+  const navigate = useNavigate();
+
+  // Ensure data is always an array to avoid .map() error
+  if (!Array.isArray(data)) {
+    console.error("Expected an array, but received:", data);
+    return <p>Error: Products could not be loaded.</p>;
+  }
+
+  if (data.length === 0) {
+    return <p>No products found for this category.</p>;
+  }
+
   return (
-    <div className="productThumb">
-      <Link to="/Details">
-        <div className="imgWrapper">
-          <img src={Roundup} alt="Roundup Herbicide" />
-        </div>
-      </Link>
-      <div className="info">
-        <span className="d-block catName">Herbicide</span>
-        <h4 className="title">
-          <Link to="/Details">Roundup Herbicide</Link>
-        </h4>
-        <Rating name="read-only" value={4} readOnly />
-        <br />
-        <span className="d-block brand">
-          By{" "}
-          <a className="text-g">
-            <Link to="/brand/monsanto">Monsanto</Link>
-          </a>
-        </span>
-        <div className="d-flex align-items-center">
-          <div className="d-flex align-items-center">
-            <span className="price text-g font-weight-bold">&#8377; 50.00</span>
+    <div className="show-parent">
+      <div className="show">
+        {data.map((product) => (
+          <div key={product.id} className="product-card">
+            {product.discount > 0 && (
+              <div className="discount-badge">{product.discount}% OFF</div>
+            )}
+            <button
+              className="wishlist-btn"
+              onClick={() => navigate("/wishlist")}
+            >
+              <Heart className="h-5 w-5 text-gray-400 hover:text-red-500" />
+            </button>
+            <div
+              className="img-wrapper"
+              onClick={() => navigate(`/product/${product.id}`)}
+              style={{ cursor: "pointer" }}
+            >
+              <img
+                src={product.productimage}
+                alt={product.productname}
+                className="w-full h-full object-contain"
+              />
+            </div>
+            <div className="info">
+              <h3 className="title">{product.productname}</h3>
+              <p className="brand">{product.productcompanyname}</p>
+
+              <div className="price-container">
+                <span className="current-price">₹{product.afterdiscount}</span>
+                {product.beforediscount && (
+                  <span className="original-price">
+                    ₹{product.beforediscount}
+                  </span>
+                )}
+              </div>
+            </div>
+            <div className="action-buttons">
+              <button
+                className="add-to-cart-btn"
+                onClick={() => navigate("/cart")}
+              >
+                <ShoppingCart />
+              </button>
+              <button
+                className="view-details-btn"
+                onClick={() => navigate(`/product/${product.id}`)}
+              >
+                <ArrowUpRight />
+              </button>
+            </div>
           </div>
-          <Button className="bg-g ml-auto">
-            <ShoppingCartOutlined />
-            Add
-          </Button>
-          <Button className="bg-g ml-auto">
-            <FavoriteBorderOutlined />
-          </Button>
-        </div>
+        ))}
       </div>
     </div>
   );

@@ -1,61 +1,43 @@
-import React from "react";
+import React, { useState } from "react";
 import Slider from "react-slick";
+import { useProductContext } from "../../context/AppContext";
 import fungus from "../../assets/images/fungus.jpg";
+import pests from "../../assets/images/pests.jpg";
+import fertilizers from "../../assets/images/fertilizers.jpg";
+import chemicals from "../../assets/images/chemicals.jpg";
 import "./style.css";
 
-const CatSlider = () => {
-  var settings = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 5,
-    slidesToScroll: 1,
-    //fade: true,
-    //autoplay: true,
-    //autoplayspeed: 500,
+const CatSlider = ({ setSelectedCategory }) => {
+  const categories = [
+    { id: null, name: "All Products", image: "your-all-products-image.jpg" }, // Add this
+    { id: "pesticide", name: "Pesticides", image: pests },
+    { id: "bio-fertilizer", name: "Bio Fertilizers", image: fertilizers },
+    { id: "nutrient", name: "Nutrients", image: chemicals },
+  ];
+
+  const handleCategoryClick = (categoryId) => {
+    setSelectedCategory(categoryId);
   };
 
   return (
-    <>
-      <div className="catSliderSection">
-        <div className="container-fluid">
-          <h2 className="hd">Our Products</h2>
-          <Slider {...settings} className="cat_slider_Main">
-            <div className="item">
-              <div className="info">
-                <img src={fungus} />
-                <h3 className="cat_name">Against Fungus</h3>
-              </div>
+    <div className="catSliderSection">
+      <div className="container-fluid">
+        <h2 className="hd">Our Products</h2>
+
+        <div className="categorySections">
+          {categories.map((cat) => (
+            <div
+              key={cat.id}
+              className="categoryItem"
+              onClick={() => handleCategoryClick(cat.id)}
+            >
+              <img src={cat.image} alt={cat.name} />
+              <h3 className="cat_name">{cat.name}</h3>
             </div>
-            <div className="item">
-              <div className="info">
-                <img src={fungus} />
-                <h3 className="cat_name">Against Pests</h3>
-              </div>
-            </div>
-            <div className="item">
-              <div className="info">
-                <img src={fungus} />
-                <h3 className="cat_name">Fertilizers</h3>
-              </div>
-            </div>
-            <div className="item">
-              <div className="info">
-                <img src={fungus} />
-                <h3 className="cat_name">Other Chemicals</h3>
-              </div>
-            </div>
-            <div className="item">
-              <div className="info">
-                <img src={fungus} />
-              </div>
-            </div>
-          </Slider>
+          ))}
         </div>
       </div>
-      <br />
-      <br />
-    </>
+    </div>
   );
 };
 

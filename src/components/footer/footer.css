@@ -3,6 +3,7 @@
   height: 300px;
   display: flex;
   justify-content: space-evenly;
+  padding: 0px 0px 10px 0px;
 }
 
 .footer .AV-info {
@@ -35,4 +36,7 @@ h3 {
 
 .footer .TPLinks a:hover {
   text-decoration: underline;
+}
+.footer .TPLinks li {
+  margin-bottom: 10px;
 }
