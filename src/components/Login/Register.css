@@ -72,3 +72,7 @@ h2 {
 .auth-link:hover {
   text-decoration: underline;
 }
+
+.star {
+  color: red;
+}

@@ -74,6 +74,7 @@ const LoginPage = () => {
             Log In
           </button>
         </form>
+        <br />
         <p>
           Don't have an account?{" "}
           <Link to="/signup" className="signup-link">

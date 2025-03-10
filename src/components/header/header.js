@@ -17,13 +17,14 @@ const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const headerRef = useRef();
+  const dropdownRef = useRef(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const checkLoginStatus = () => {
       const token = localStorage.getItem("token");
       setIsLoggedIn(!!token);
-      setShowProfileDropdown(false); // Ensure dropdown is closed after login
+      setShowProfileDropdown(false);
     };
 
     checkLoginStatus();
@@ -33,19 +34,28 @@ const Header = () => {
       window.removeEventListener("loginStatusChanged", checkLoginStatus);
     };
   }, []);
-  // Debounced search effect
-  useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
-      if (query.trim()) {
-        handleSearch();
-      } else {
-        setSearchResults([]);
-        setNoResults(false);
-      }
-    }, 500);
 
-    return () => clearTimeout(delayDebounceFn);
-  }, [query]);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target) &&
+        event.target.closest(".profile-btn") === null
+      ) {
+        setShowProfileDropdown(false);
+      }
+    };
+
+    if (showProfileDropdown) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showProfileDropdown]);
 
   const handleSearch = async () => {
     if (!query.trim()) return;
@@ -56,7 +66,7 @@ const Header = () => {
 
     try {
       const response = await fetch(
-        `https://spring-bootagrivision-production.up.railway.app/api/v1/auth/user/search/${encodeURIComponent(
+        `https://spring-boot-agrivision-1.onrender.com/api/v1/auth/user/search/${encodeURIComponent(
           query
         )}`,
         { method: "GET", headers: { "Content-Type": "application/json" } }
@@ -84,7 +94,6 @@ const Header = () => {
     }
   };
 
-  // Scroll behavior to fix header on top
   useEffect(() => {
     const handleScroll = () => {
       if (headerRef.current) {
@@ -107,10 +116,9 @@ const Header = () => {
     }
   };
 
-  const toggleDropdown = () => setShowProfileDropdown((prev) => !prev);
-
-  const handleLogout = () => {
-    localStorage.removeItem("token"); // Remove user data
+  const handleLogout = (e) => {
+    e.preventDefault(); // Prevent `<Link>` navigation issues
+    localStorage.removeItem("token");
     setIsLoggedIn(false);
     navigate("/login");
   };
@@ -141,34 +149,29 @@ const Header = () => {
 
         {/* Navigation Tabs */}
         <div className="header-tabs">
-          <Link to="/wishlist" className="header-link">
-            <FavoriteIcon className="header-icon" />
-            Wishlist
-          </Link>
-          <Link to="/cart" className="header-link">
-            <ShoppingCartIcon className="header-icon" />
-            Cart
-          </Link>
-
-          {/* Login or Profile Button */}
           {isLoggedIn ? (
             <div className="profile-wrapper">
-              {/* Profile button with toggle functionality */}
+              <Link to="/wishlist" className="header-link">
+                <FavoriteIcon className="header-icon" />
+                Wishlist
+              </Link>
+              <Link to="/cart" className="header-link">
+                <ShoppingCartIcon className="header-icon" />
+                Cart
+              </Link>
+
+              {/* Profile Button */}
               <div
                 className="header-link profile-btn"
-                onMouseEnter={() => setShowProfileDropdown(true)}
+                onClick={() => setShowProfileDropdown((prev) => !prev)}
               >
                 <AccountCircleIcon className="header-icon" />
                 View Profile
               </div>
 
-              {/* Dropdown should only be shown when showProfileDropdown is true */}
+              {/* Dropdown Menu */}
               {showProfileDropdown && (
-                <div
-                  className="profile-dropdown"
-                  onMouseEnter={() => setShowProfileDropdown(true)} // Keeps it open when hovering
-                  onMouseLeave={() => setShowProfileDropdown(false)} // Closes when leaving
-                >
+                <div className="profile-dropdown" ref={dropdownRef}>
                   <Link to="/profile">My Profile</Link>
                   <Link to="#" onClick={handleLogout}>
                     <LogoutIcon className="header-icon" /> Logout
