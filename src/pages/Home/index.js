@@ -6,7 +6,6 @@ import Product from "../../components/product/index";
 import { useProductContext } from "../../context/AppContext"; //
 import HomeSlider from "./slider/index";
 
-
 const Home = () => {
   const { products } = useProductContext();
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -35,8 +34,11 @@ const Home = () => {
 
   return (
     <>
-    <Header />
-      <HomeSlider /> 
+      <Header />
+      <div className="homeSliderWrapper">
+        <HomeSlider />
+      </div>
+
       <CatSlider setSelectedCategory={setSelectedCategory} />
       <Product data={selectedCategory ? filteredProducts : products} />
 
