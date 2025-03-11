@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
-import styles from "../../pages/Home/styles.css"; // Ensure correct CSS import
-import HomeSlider from "./slider/index";
+import React, { useEffect, useState } from "react";
 import CatSlider from "../../components/catSlider";
-import Product from "../../components/product/index";
 import Footer from "../../components/footer/footer";
+import Header from "../../components/header/header";
+import Product from "../../components/product/index";
 import { useProductContext } from "../../context/AppContext"; //
+import HomeSlider from "./slider/index";
+
 
 const Home = () => {
   const { products } = useProductContext();
@@ -34,7 +35,8 @@ const Home = () => {
 
   return (
     <>
-      <HomeSlider />
+    <Header />
+      <HomeSlider /> 
       <CatSlider setSelectedCategory={setSelectedCategory} />
       <Product data={selectedCategory ? filteredProducts : products} />
 
