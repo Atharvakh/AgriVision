@@ -16,9 +16,50 @@ const Header = () => {
   const [noResults, setNoResults] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+  const [user, setUser] = useState(null);
+
   const headerRef = useRef();
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      try {
+        const response = await fetch(
+          "https://spring-boot-agrivision-1.onrender.com/api/v1/auth/profile",
+          {
+            method: "POST", //
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response.status === 401) {
+          console.warn(" Token expired or invalid. Logging out...");
+          localStorage.removeItem("token");
+          setIsLoggedIn(false);
+          setUser(null);
+          return;
+        }
+
+        if (!response.ok) throw new Error("Failed to fetch user data");
+
+        const userData = await response.json();
+        setUser(userData);
+        setIsLoggedIn(true);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        setIsLoggedIn(false);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   useEffect(() => {
     const checkLoginStatus = () => {
@@ -69,6 +110,7 @@ const Header = () => {
         `https://spring-boot-agrivision-1.onrender.com/api/v1/auth/user/search/${encodeURIComponent(
           query
         )}`,
+
         { method: "GET", headers: { "Content-Type": "application/json" } }
       );
 
@@ -116,10 +158,11 @@ const Header = () => {
     }
   };
 
-  const handleLogout = (e) => {
-    e.preventDefault(); // Prevent `<Link>` navigation issues
+  const handleLogout = () => {
     localStorage.removeItem("token");
     setIsLoggedIn(false);
+    setUser(null);
+    window.dispatchEvent(new Event("loginStatusChanged")); // 🔹 Ensures all components update
     navigate("/login");
   };
 
@@ -172,7 +215,9 @@ const Header = () => {
               {/* Dropdown Menu */}
               {showProfileDropdown && (
                 <div className="profile-dropdown" ref={dropdownRef}>
-                  <Link to="/profile">My Profile</Link>
+                  <Link to="/profile" state={{ user }}>
+                    My Profile
+                  </Link>
                   <Link to="#" onClick={handleLogout}>
                     <LogoutIcon className="header-icon" /> Logout
                   </Link>

@@ -8,6 +8,7 @@ import Details from "./components/product/Details";
 import Product from "./components/product/index";
 import Home from "./pages/Home/index";
 import SearchResults from "./pages/searchResult";
+import ProfilePage from "./components/userProfile/profile";
 
 import ManageAdd from "./Admin/AdManageMent/ManageAdd";
 import ManageLogo from "./Admin/AdManageMent/ManageLogo";
@@ -37,6 +38,7 @@ const App = () => {
         <Route path="contact" element={<Contact />} />
         <Route path="/product/:id" element={<Product />} />
         <Route path="/search-results" element={<SearchResults />} />
+        <Route path="/profile" element={<ProfilePage />} />
 
         <Route path="AdminLogin" element={<AdminLoginPage />} />
         <Route path="AdminHome" element={<HomePage />} />

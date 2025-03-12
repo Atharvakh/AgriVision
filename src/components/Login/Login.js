@@ -3,39 +3,34 @@ import { Link, useNavigate } from "react-router-dom";
 import "../Login/Login.css";
 
 const LoginPage = () => {
-  const [username, setUsername] = useState(""); // State for username
-  const [password, setPassword] = useState(""); // State for password
-  const [error, setError] = useState(""); // State for error messages
-  const navigate = useNavigate(); // Hook for navigation
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setError(""); // Reset error before new request
+    setError("");
 
     try {
       const response = await fetch(
         "https://spring-boot-agrivision-1.onrender.com/api/v1/auth/user/login",
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username,
-            password,
-          }),
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password }),
         }
       );
 
-      const data = await response.json(); // Parse the JSON response
+      const data = await response.json();
+      //console.log("Login Response:", data); // ✅ Debugging
 
-      if (response.ok) {
-        localStorage.setItem("token", data.token); // Store token in localStorage
+      if (response.ok && data.token) {
+        localStorage.setItem("token", data.token);
+        //console.log("Token stored:", localStorage.getItem("token"));
 
-        // Dispatch a custom event to notify other components (Header) about login
-        window.dispatchEvent(new Event("loginStatusChanged"));
-
-        navigate("/"); // Redirect to dashboard after successful login
+        window.dispatchEvent(new Event("loginStatusChanged")); // 🔹 Forces Header.js to update
+        navigate("/");
       } else {
         setError(data.message || "Login failed. Try again.");
       }
@@ -74,7 +69,7 @@ const LoginPage = () => {
             Log In
           </button>
         </form>
-        <br/>
+        <br />
         <p>
           Don't have an account?{" "}
           <Link to="/signup" className="p-4 signup-link">

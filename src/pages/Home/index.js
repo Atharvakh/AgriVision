@@ -38,7 +38,7 @@ const Home = () => {
       <div className="homeSliderWrapper">
         <HomeSlider />
       </div>
-
+      <h2> Our Products </h2>
       <CatSlider setSelectedCategory={setSelectedCategory} />
       <Product data={selectedCategory ? filteredProducts : products} />
 
