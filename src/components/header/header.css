@@ -62,7 +62,8 @@
 }
 
 .header-icon {
-  margin-right: 8px; /* Add space between icon and text */
+  margin-right: 10px; /* Add space between icon and text */
+  margin-left: 10px;
 }
 
 /* Dropdown styles */
@@ -89,7 +90,6 @@
 .dropdown-item:hover {
   background-color: #f0f0f0;
 }
-
 header.fixed {
   position: fixed;
   top: 0px;
@@ -157,10 +157,12 @@ header.fixed {
 
 .header-icon {
   margin-right: 8px;
+  gap: 10px;
 }
 .profile-wrapper {
   position: relative;
-  display: inline-block;
+  display: flex;
+  flex-direction: row;
 }
 
 .profile-dropdown {
@@ -188,4 +190,8 @@ header.fixed {
 
 .profile-dropdown a:hover {
   background-color: #f0f0f0;
+}
+
+.header-link profile-btn {
+  margin-right: 5px;
 }

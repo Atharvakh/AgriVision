@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import CatSlider from "../../components/catSlider";
 import Footer from "../../components/footer/footer";
 import Header from "../../components/header/header";
@@ -34,8 +34,11 @@ const Home = () => {
 
   return (
     <>
-    <Header />
-      <HomeSlider />
+      <Header />
+      <div className="homeSliderWrapper">
+        <HomeSlider />
+      </div>
+      <h2> Our Products </h2>
       <CatSlider setSelectedCategory={setSelectedCategory} />
       <Product data={selectedCategory ? filteredProducts : products} />
 

@@ -1,9 +1,19 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/images/AgriVision (8).png"; // Import the image
 import "./SideBar.css"; // Adjust the path if needed
 
 function SideBar() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const tok = localStorage.getItem("tok");
+
+    if (!tok) {
+      navigate("/AdminLogin"); // Redirect if no token
+    }
+  }, [navigate]);
+
   return (
     <div>
       {/* Sidebar */}
@@ -45,14 +55,14 @@ function SideBar() {
               <i class="fa-solid fa-people-group text-info me-1"></i> Team
             </li>
           </Link>
-          <Link
+          {/* <Link
             to="/admin/setting"
             className="text-decoration-none text-dark"
           >
             <li className="p-2 rounded hover-effect">
             <i className="fas fa-cog text-success me-2"></i> Settings
           </li>
-          </Link>
+          </Link> */}
           
         </ul>
         <h6 className=" text-body-tertiary fs-20">
@@ -112,7 +122,7 @@ function SideBar() {
             Manage Ads
           </li>
           </Link>
-          
+{/*           
           <Link
             to="/admin/AddManagement/Logo"
             className="text-decoration-none text-dark"
@@ -120,7 +130,7 @@ function SideBar() {
             <li className="p-2 rounded hover-effect">
             <i class="fa-solid fa-upload text-success me-2"></i> Update Logo
           </li>
-          </Link>
+          </Link> */}
           
         </ul>
 

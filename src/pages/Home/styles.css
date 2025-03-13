@@ -113,3 +113,13 @@
     width: 100%;
   }
 }
+.homeSliderWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.homeSliderWrapper > * {
+  max-width: 80%; /* Adjust as needed */
+  width: 100%;
+}

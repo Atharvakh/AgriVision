@@ -22,7 +22,7 @@ const CatSlider = ({ setSelectedCategory }) => {
   return (
     <div className="catSliderSection">
       <div className="container-fluid">
-        <h2 className="hd">Our Products</h2>
+        {/* <h2 className="hd">Our Products</h2> */}
 
         <div className="categorySections">
           {categories.map((cat) => (

@@ -111,7 +111,9 @@ const SignUpPage = () => {
         <h2>Sign Up</h2>
         <form onSubmit={handleSubmit} noValidate>
           <div className="form-group">
-            <label htmlFor="username">Username:</label>
+            <label htmlFor="username">
+              <span className="star">*</span>Username :
+            </label>
             <input
               type="text"
               id="username"
@@ -124,7 +126,9 @@ const SignUpPage = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="email">Email:</label>
+            <label htmlFor="email">
+              <span className="star">*</span>Email:
+            </label>
             <input
               type="email"
               id="email"
@@ -137,7 +141,9 @@ const SignUpPage = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="password">Password:</label>
+            <label htmlFor="password">
+              <span className="star">*</span>Password:
+            </label>
             <input
               type="password"
               id="password"
@@ -201,7 +207,7 @@ const SignUpPage = () => {
             {loading ? "Loading..." : "Sign Up"}
           </button>
         </form>
-
+        <br />
         <p>
           Already have an account? <Link to="/login">Log In</Link>
         </p>

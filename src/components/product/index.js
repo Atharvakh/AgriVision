@@ -1,7 +1,7 @@
-import { ArrowUpRight, Heart, ShoppingCart } from "lucide-react";
-import { React } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import "./style.css"; // Ensure this path is correct
+import { Heart, ShoppingCart, ArrowUpRight } from "lucide-react";
+import "./style.css";
 
 const Product = ({ data = [] }) => {
   const navigate = useNavigate();
