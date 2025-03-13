@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Axios from "../../Axios";
+import Navbar from "../Header/Navbar";
 
 function ViewProduct() {
   const [query, setQuery] = useState("");
@@ -46,45 +47,26 @@ function ViewProduct() {
   };
   return (
     <div>
-      {/* Header */}
-      <div
-        style={{ height: "65px" }}
-        className="d-flex justify-content-end gap-2 text-dark py-3 border rounded-4 bg-white w-100 top-0"
-      >
-        <h4
-          className="text-success fw-bold pl-20"
-          style={{ fontFamily: "Poppins, sans-serif", color: "#28a745" }}
-        >
-          Empowering Farmers, Growing Futures 🌱🚜
-        </h4>
-
-        <img
-          src="https://ih1.redbubble.net/image.2309256735.3062/st,small,507x507-pad,600x600,f8f8f8.u1.jpg"
-          className="rounded-circle float-end"
-          style={{ width: "40px", marginLeft: "30vh", height: "auto" }}
-        ></img>
-        <i class="fa-solid fa-bell fa-2x text-success-emphasis"></i>
-        <i class="fa-solid fa-circle-user fa-2x text-info"></i>
-        <h6 className="pt-2 pe-2">Admin</h6>
-      </div>
+      <Navbar />
 
       {/* Main Content */}
       <div className="p-2">
-        
         <div className="w-10 d-flex start-0 gap-1 justify-content-start">
           <i class="fa-solid fa-house mr-2"></i>
-          <h6 className="pt-2">
+          <h6 className="">
             <small>Product</small>
           </h6>
-          <h6 className="pt-2">
+          <h6 className="">
             <small>/</small>
           </h6>
-          <h6 className="pt-2">
+          <h6 className="">
             <small>View</small>
           </h6>
         </div>
       </div>
-      <h2 className="text-center text-success fw-bold bg-white rounded p-2">View Product</h2>
+      <h2 className="text-center text-success fw-bold bg-white rounded p-2">
+        View Product
+      </h2>
       <div className="container mt-4">
         {/* Search Bar */}
         <input
@@ -94,7 +76,7 @@ function ViewProduct() {
           onChange={handleInputChange}
           placeholder="Search products..."
         />
-        
+
         {/* Product Grid */}
         <div className="row">
           {result.length > 0 ? (
@@ -131,16 +113,13 @@ function ViewProduct() {
                     }}
                   />
                   <div className="card-body" style={{ flexGrow: 1 }}>
-                    <h6 className="fw-bold">
-                      #{product.id}</h6><h5> {product.productname}
-                    </h5>
+                    <h6 className="fw-bold">#{product.id}</h6>
+                    <h5> {product.productname}</h5>
                     <h6 className="text-muted">{product.productcompanyname}</h6>
                     <h6>
                       <strong>Price:</strong> ₹{product.beforediscount}
                     </h6>
-                    <h5>
-                      Discount: {product.discount}%
-                    </h5>
+                    <h5>Discount: {product.discount}%</h5>
                     <h6>
                       <strong>Final Price:</strong>
                       <span className="text-success fw-bold">
@@ -149,9 +128,19 @@ function ViewProduct() {
                       </span>
                     </h6>
                     {product.quantity <= 5 ? (
-                      <h5 className="text-danger">Low Stock<small className="ps-2 text-dark">[{product.quantity}]</small></h5>
+                      <h5 className="text-danger">
+                        Low Stock
+                        <small className="ps-2 text-dark">
+                          [{product.quantity}]
+                        </small>
+                      </h5>
                     ) : (
-                      <h5 className="text-success">In Stock<small className="ps-2 text-dark">[{product.quantity}]</small></h5>
+                      <h5 className="text-success">
+                        In Stock
+                        <small className="ps-2 text-dark">
+                          [{product.quantity}]
+                        </small>
+                      </h5>
                     )}
                   </div>
                 </div>

@@ -6,9 +6,9 @@ import LoginPage from "./components/Login/Login";
 import SignUpPage from "./components/Login/Register";
 import Details from "./components/product/Details";
 import Product from "./components/product/index";
+import ProfilePage from "./components/userProfile/profile";
 import Home from "./pages/Home/index";
 import SearchResults from "./pages/searchResult";
-import ProfilePage from "./components/userProfile/profile";
 
 import ManageAdd from "./Admin/AdManageMent/ManageAdd";
 import ManageLogo from "./Admin/AdManageMent/ManageLogo";
@@ -42,7 +42,9 @@ const App = () => {
 
         <Route path="AdminLogin" element={<AdminLoginPage />} />
         <Route path="AdminHome" element={<HomePage />} />
-        <Route path="/admin" element={<AdminDashboard />}>
+        {/* <Route path="/admin" element={<AdminDashboard />}> */}
+          
+        <Route path="/admin/*" element={<AdminDashboard />}>
           <Route path="home" element={<HomeAdmin />} />
           <Route path="team" element={<Team />} />
           <Route path="setting" element={<Setting />} />

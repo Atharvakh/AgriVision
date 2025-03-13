@@ -1,81 +1,157 @@
-import React from "react";
+import { useEffect, useState } from "react";
+import Axios from "../../Axios";
+import Navbar from "../Header/Navbar";
 
 function UpdateProduct() {
-    
+  const [loading, setLoading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [productSuggestions, setProductSuggestions] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [formData, setFormData] = useState({
+    productname: "",
+    productcompanyname: "",
+    category: "",
+    discount: "",
+    beforediscount: "",
+    afterdiscount: "",
+    quantity: "",
+    productimage: null,
+  });
+
+  // Handle product search
+  useEffect(() => {
+    if (searchQuery.length > 1) {
+      Axios()
+        .get(`/user/search/${searchQuery}`)
+        .then((res) => setProductSuggestions(res.data))
+        .catch((err) => console.error("Error fetching suggestions:", err));
+    } else {
+      setProductSuggestions([]);
+    }
+  }, [searchQuery]);
+
+  // Handle product selection & auto-fill fields using search data
+  const handleProductSelect = (product) => {
+    setSearchQuery(product.productname);
+    setProductSuggestions([]);
+    setSelectedProduct(product.id);
+
+    // Use the data directly from search results to auto-fill form
+    setFormData({
+      productname: product.productname,
+      productcompanyname: product.productcompanyname,
+      category: product.category,
+      discount: product.discount,
+      beforediscount: product.beforediscount,
+      afterdiscount: product.afterdiscount,
+      quantity: product.quantity,
+      productimage: null, // Image should be manually re-uploaded
+    });
+  };
+  // Handle input changes
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // Handle file selection
+  const handleFileChange = (e) => {
+    setFormData((prev) => ({ ...prev, productimage: e.target.files[0] }));
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const data = new FormData();
+
+    // Append only non-empty text fields as key-value pairs
+    for (const key in formData) {
+      if (key !== "productimage" && formData[key]) {
+        data.append(key, formData[key]);
+      }
+    }
+
+    // Append image file if selected
+    if (formData.productimage) {
+      data.append("productimage", formData.productimage);
+    }
+
+    try {
+      await Axios().post(`/admin/updateproduct/${selectedProduct}`, data, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      alert("Product updated successfully!");
+    } catch (error) {
+      console.error("Update error:", error);
+      alert("Failed to update product.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div >
-      {/* Header */}
-      <div
-        style={{ height: "65px" }}
-        className="d-flex justify-content-end gap-2 text-dark py-3 border rounded-4 bg-white w-100 top-0"
-      >
-        <h4
-          className="text-success fw-bold pl-20"
-          style={{ fontFamily: "Poppins, sans-serif", color: "#28a745" }}
-        >
-          Empowering Farmers, Growing Futures 🌱🚜
-        </h4>
-
-        <img
-          src="https://ih1.redbubble.net/image.2309256735.3062/st,small,507x507-pad,600x600,f8f8f8.u1.jpg"
-          className="rounded-circle float-end"
-          style={{ width: "40px", marginLeft: "30vh", height: "auto" }}
-        ></img>
-        <i class="fa-solid fa-bell fa-2x text-success-emphasis"></i>
-        <i class="fa-solid fa-circle-user fa-2x text-info"></i>
-        <h6 className="pt-2 pe-2">Admin</h6>
-      </div>
-
-      {/* Main Content */}
-      <div className="p-2">
-        <div className="w-10 d-flex start-0 gap-1 justify-content-start">
-          <i class="fa-solid fa-house mr-2"></i>
-          <h6 className="pt-2">
-            <small>Product</small>
-          </h6>
-          <h6 className="pt-2">
-            <small>/</small>
-          </h6>
-          <h6 className="pt-2">
-            <small>Update</small>
-          </h6>
-        </div>
-      </div>
-      <div className="container">
+    <div>
+      <Navbar />
+      <div className="container p-1 pt-4">
         <div className="card shadow-lg p-4">
           <h2 className="text-center text-primary fw-bold">Update Product</h2>
-          <form>
-            <div className="d-flex gap-2">
-            <div className="mb-3 w-25">
-              <label className="form-label fw-bold">Product ID:</label>
-              <input
-                type="number"
-                className="form-control"
-                placeholder="Enter product ID"
-              />
-            </div>
-
-            <div className="mb-3 w-75">
-              <label className="form-label fw-bold">Product Name:</label>
+          <form onSubmit={handleSubmit}>
+            {/* Product Search & Dropdown */}
+            <div className="mb-3">
+              <label className="form-label fw-bold d-flex">Search Product<h6 className="text-danger">*</h6></label>
               <input
                 type="text"
                 className="form-control"
-                placeholder="Enter product name"
+                placeholder="Type product name..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
+              {productSuggestions.length > 0 && (
+                <ul className="list-group p-1 mt-1">
+                  {productSuggestions.map((product) => (
+                    <li
+                      key={product.id}
+                      className="list-group-item list-group-item-action bg-body-secondary "
+                      onClick={() => handleProductSelect(product)}
+                    >
+                      {product.productname}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
+
+            {/* Auto-filled & Editable Fields */}
+            <div className="mb-3">
+              <label className="form-label fw-bold">Product Name</label>
+              <input
+                type="text"
+                className="form-control"
+                name="productname"
+                value={formData.productname}
+                onChange={handleChange}
+                required
+              />
             </div>
             <div className="mb-3">
               <label className="form-label fw-bold">Company Name:</label>
               <input
                 type="text"
                 className="form-control"
-                placeholder="Enter company name"
+                name="productcompanyname"
+                value={formData.productcompanyname}
+                onChange={handleChange}
               />
             </div>
 
             <div className="mb-3">
               <label className="form-label fw-bold">Product Image:</label>
-              <input type="file" className="form-control" accept="image/*" />
+              <input
+                type="file"
+                className="form-control"
+                accept="image/*"
+                onChange={handleFileChange}
+              />
             </div>
 
             <div className="row">
@@ -84,7 +160,9 @@ function UpdateProduct() {
                 <input
                   type="number"
                   className="form-control"
-                  placeholder="Enter new price"
+                  name="afterdiscount"
+                  value={formData.afterdiscount}
+                  onChange={handleChange}
                 />
               </div>
               <div className="col-md-6 mb-3">
@@ -92,7 +170,9 @@ function UpdateProduct() {
                 <input
                   type="number"
                   className="form-control"
-                  placeholder="Enter quantity"
+                  name="quantity"
+                  value={formData.quantity}
+                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -102,7 +182,9 @@ function UpdateProduct() {
               <input
                 type="number"
                 className="form-control"
-                placeholder="Enter discount percentage"
+                name="discount"
+                value={formData.discount}
+                onChange={handleChange}
               />
             </div>
 
@@ -111,11 +193,18 @@ function UpdateProduct() {
               <button type="reset" className="btn btn-secondary">
                 Clear
               </button>
-              <button type="submit" className="btn btn-success">
-                Update
+              <button
+                type="submit"
+                className="btn btn-success"
+                disabled={loading}
+              >
+                {loading ? (
+                  <span className="spinner-border spinner-border-sm"></span>
+                ) : (
+                  "Update"
+                )}
               </button>
             </div>
-
           </form>
         </div>
       </div>
