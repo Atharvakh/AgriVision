@@ -14,7 +14,6 @@ function StockView() {
         const outOfStockProducts = response.data.filter((product) => product.quantity < 1);
         setProducts(outOfStockProducts);
       } catch (error) {
-        console.error("Error fetching products:", error);
       }
     };
 

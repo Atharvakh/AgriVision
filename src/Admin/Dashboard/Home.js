@@ -1,5 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { default as React, useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
 import {
   CartesianGrid,
   Cell,
@@ -62,8 +63,18 @@ function HomeAdmin() {
     },
   ];
   const addTask = () => {
+    
     if (input.trim()) {
       setTasks([...tasks, { text: input, completed: false }]);
+      toast.success("Success", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+      });
       setInput("");
     }
   };
@@ -76,6 +87,16 @@ function HomeAdmin() {
 
   const deleteTask = (index) => {
     setTasks(tasks.filter((_, i) => i !== index));
+    toast.warn("Deleted", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "dark",
+    });
+
   };
 
   const data = [
@@ -100,7 +121,8 @@ function HomeAdmin() {
   return (
     <div>
       <Navbar />
-
+      <ToastContainer />
+      
       {/* Main Content */}
       <div className="p-2">
         <div className="w-10 d-flex start-0 gap-1 justify-content-start">

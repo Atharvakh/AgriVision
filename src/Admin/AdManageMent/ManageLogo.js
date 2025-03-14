@@ -1,93 +1,152 @@
-import React from "react";
-import logo from "../../assets/images/AgriVision (8).png"; // Import the image
+import React, { useEffect, useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import Axios from "../../Axios";
+import Navbar from "../Header/Navbar";
 
 function ManageLogo() {
-  return (
-    <div >
-      {/* Header */}
-      <div
-        style={{ height: "65px" }}
-        className="d-flex justify-content-end gap-2 text-dark py-3 border rounded-4 bg-white w-100 top-0"
-      >
-        <h4
-          className="text-success fw-bold pl-20"
-          style={{ fontFamily: "Poppins, sans-serif", color: "#28a745" }}
-        >
-          Empowering Farmers, Growing Futures 🌱🚜
-        </h4>
+  const [logo, setLogo] = useState([]);
+  const [loading, setLoading] = useState(false); // Track loading state
+  const [selectedFile, setSelectedFile] = useState(null);
+  const id = 1; // Assuming the logo always has ID 1
 
-        <img
-          src="https://ih1.redbubble.net/image.2309256735.3062/st,small,507x507-pad,600x600,f8f8f8.u1.jpg"
-          className="rounded-circle float-end"
-          style={{ width: "40px", marginLeft: "30vh", height: "auto" }}
-        ></img>
-        <i class="fa-solid fa-bell fa-2x text-success-emphasis"></i>
-        <i class="fa-solid fa-circle-user fa-2x text-info"></i>
-        <h6 className="pt-2 pe-2">Admin</h6>
-      </div>
+  useEffect(() => {
+    const fetchLogo = async () => {
+      try {
+        const response = await Axios().get("/admin/add");
+        setLogo(response.data);
+      } catch (error) {
+      }
+    };
+    fetchLogo();
+  }, []);
+
+  // Handle file selection
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+
+  // Handle logo update (POST request)
+  const handleUpdateLogo = async () => {
+    if (!selectedFile) {
+      toast.warn("Please select a file first!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+      });
+      return;
+    }
+    setLoading(true); // Start loading
+
+    const formData = new FormData();
+    formData.append("image", selectedFile); // Key must match @RequestPart("image") in backend
+
+    try {
+      const response = await Axios().post(`/admin/Updateadd/${id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      toast.success("Logo updated successfully!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+      });
+      window.location.reload(); // Refresh to fetch the new logo
+    } catch (error) {
+      toast.error("Failed to update logo.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+      });
+    } finally {
+      setLoading(false); // Stop loading
+    }
+  };
+
+  return (
+    <div>
+      <ToastContainer />
+      <Navbar />
 
       {/* Main Content */}
       <div className="p-2">
         <div className="w-10 d-flex start-0 gap-1 justify-content-start">
-          <i class="fa-solid fa-house mr-2"></i>
-          <h6 className="">
+          <i className="fa-solid fa-house mr-2"></i>
+          <h6>
             <small>Add Management</small>
           </h6>
-          <h6 className="">
+          <h6>
             <small>/</small>
           </h6>
-          <h6 className="">
+          <h6>
             <small>Manage Logo</small>
           </h6>
         </div>
       </div>
 
-      <div className="d-flex gap-4">
-        {/* Add New Ad */}
-        <div className="p-2 m-6 bg-white rounded" style={{ width: "500px" }}>
+      {/* Centered Form */}
+      <div className="d-flex flex-column align-items-center justify-content-center min-vh-200">
+        {/* Upload New Logo */}
+        <div className="p-4 bg-white rounded shadow" style={{ width: "500px" }}>
           <h3 className="text-success fw-bold text-center">Upload New Logo</h3>
-          <div className="row mb-3">
-            {/* Product Image Upload */}
-            <div className="mb-3">
-              <label className="form-label fw-bold">Logo Image:</label>
-              <input type="file" className="form-control" accept="image/*" />
-            </div>
+          <div className="mb-3">
+            <label className="form-label fw-bold">Logo Image:</label>
+            <input
+              type="file"
+              className="form-control"
+              accept="image/*"
+              onChange={handleFileChange}
+            />
           </div>
 
           {/* Buttons */}
           <div className="d-flex justify-content-evenly mt-3">
-            <button type="reset" className="btn btn-secondary">
+            <button
+              type="reset"
+              className="btn btn-secondary"
+              onClick={() => setSelectedFile(null)}
+            >
               Clear
             </button>
-            <button type="submit" className="btn btn-success">
-              Submit
+            <button
+              type="submit"
+              className="btn btn-success"
+              onClick={handleUpdateLogo}
+              disabled={loading}
+            >
+              {loading ? (
+                <span className="spinner-border spinner-border-sm"></span>
+              ) : (
+                "Submit"
+              )}
             </button>
           </div>
         </div>
-        {/* Delete Ad */}
-        <div className="p-2 bg-white rounded " style={{ width: "400px" }}>
-          <h3 className="text-danger fw-bold text-center">Delete Logo</h3>
-          {/* Buttons */}
-          <div className="d-flex justify-content-evenly mt-3">
-            <button type="submit" className="btn btn-success">
-              Delete
-            </button>
+
+        {/* Display Running Logo */}
+        <h2 className="text-center text-primary fw-bold mt-4">Running Logo</h2>
+        {logo.length > 0 && (
+          <div className="p-4 rounded text-center">
+            <img
+              src={logo[0].addurl}
+              className="w-25 rounded shadow-lg"
+              alt="Uploaded Logo"
+            />
           </div>
-        </div>
+        )}
       </div>
-      <br />
-      <br />
-      <h2 className="text-center text-primary fw-bold">Running Logo</h2>
-      {/* Uploaded Ads */}
-      <div className=" p-4 rounded justify-content-center">
-        <div className="text-center">
-          <img src={logo} className="w-25 rounded" alt="Uploaded Ad" />
-        </div>
-      </div>
-      <br />
-      <br />
-      <br />
-      <br />
     </div>
   );
 }

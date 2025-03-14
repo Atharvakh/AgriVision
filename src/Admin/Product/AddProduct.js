@@ -1,11 +1,10 @@
 import { useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
 import Axios from "../../Axios";
 import Navbar from "../Header/Navbar";
 
 function AddProduct() {
-  
   const [loading, setLoading] = useState(false); // Track loading state
-
   const [formData, setFormData] = useState({
     productname: "",
     productcompanyname: "",
@@ -45,18 +44,33 @@ function AddProduct() {
           "Content-Type": "multipart/form-data",
         },
       });
-      alert("Product added successfully!");
-      console.log("Success:", response.data);
+      toast.success("Product added successfully!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+      });
     } catch (error) {
-      console.error("Error:", error);
-      alert("Failed to add product.");
+      toast.error("Failed to add product.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+      });
     } finally {
       setLoading(false); // Stop loading
     }
   };
   return (
     <div style={{ height: "98vh" }}>
-           <Navbar />
+      <Navbar />
+      <ToastContainer />
       {/* Main Content */}
       <div className="p-2">
         <div className="w-10 d-flex start-0 gap-1 justify-content-start">
@@ -79,21 +93,29 @@ function AddProduct() {
           <form onSubmit={handleSubmit}>
             {/* Product Name */}
             <div className="mb-3">
-              <label className="form-label fw-bold d-flex">Product Name<h6 className="text-danger">*</h6></label>
+              <label className="form-label fw-bold d-flex">
+                Product Name<h6 className="text-danger">*</h6>
+              </label>
               <input
                 type="text"
                 className="form-control"
-                name="productname" onChange={handleChange} required
+                name="productname"
+                onChange={handleChange}
+                required
                 placeholder="Enter product name"
               />
             </div>
 
             {/* Product Company Name */}
             <div className="mb-3">
-              <label className="form-label fw-bold d-flex">Company Name<h6 className="text-danger">*</h6></label>
+              <label className="form-label fw-bold d-flex">
+                Company Name<h6 className="text-danger">*</h6>
+              </label>
               <input
                 type="text"
-                name="productcompanyname" onChange={handleChange} required
+                name="productcompanyname"
+                onChange={handleChange}
+                required
                 className="form-control"
                 placeholder="Enter company name"
               />
@@ -101,8 +123,17 @@ function AddProduct() {
 
             {/* Product Image Upload */}
             <div className="mb-3">
-              <label className="form-label fw-bold d-flex">Product Image<h6 className="text-danger">*</h6></label>
-              <input type="file" className="form-control" accept="image/*" name="productimage" onChange={handleFileChange} required />
+              <label className="form-label fw-bold d-flex">
+                Product Image<h6 className="text-danger">*</h6>
+              </label>
+              <input
+                type="file"
+                className="form-control"
+                accept="image/*"
+                name="productimage"
+                onChange={handleFileChange}
+                required
+              />
             </div>
 
             {/* Product Prices */}
@@ -113,7 +144,9 @@ function AddProduct() {
                 </label>
                 <input
                   type="number"
-                  name="beforediscount" onChange={handleChange} required
+                  name="beforediscount"
+                  onChange={handleChange}
+                  required
                   className="form-control"
                   placeholder="Enter price before discount"
                 />
@@ -125,7 +158,9 @@ function AddProduct() {
                 <input
                   type="number"
                   className="form-control"
-                  name="afterdiscount" onChange={handleChange} required
+                  name="afterdiscount"
+                  onChange={handleChange}
+                  required
                   placeholder="Enter price after discount"
                 />
               </div>
@@ -134,38 +169,50 @@ function AddProduct() {
             {/* Product Quantity & Discount */}
             <div className="row">
               <div className="col-md-6 mb-3">
-                <label className="form-label d-flex fw-bold">Quantity<h6 className="text-danger">*</h6></label>
+                <label className="form-label d-flex fw-bold">
+                  Quantity<h6 className="text-danger">*</h6>
+                </label>
                 <input
                   type="number"
-                  name="quantity" onChange={handleChange} required
+                  name="quantity"
+                  onChange={handleChange}
+                  required
                   className="form-control"
                   placeholder="Enter product quantity"
                 />
               </div>
               <div className="col-md-6 mb-3">
-                <label className="form-label fw-bold d-flex">Discount (%)<h6 className="text-danger">*</h6></label>
+                <label className="form-label fw-bold d-flex">
+                  Discount (%)<h6 className="text-danger">*</h6>
+                </label>
                 <input
                   type="number"
                   className="form-control"
-                  name="discount" onChange={handleChange} required
+                  name="discount"
+                  onChange={handleChange}
+                  required
                   placeholder="Enter discount percentage"
                 />
               </div>
             </div>
 
-          {/* Buttons */}
-          <div className="d-flex justify-content-between mt-3">
-            <button type="reset" className="btn btn-secondary">
-              Clear
-            </button>
-            <button type="submit" className="btn btn-success" disabled={loading}>
-              {loading ? (
-                <span className="spinner-border spinner-border-sm"></span>
-              ) : (
-                "Submit"
-              )}
-            </button>
-          </div>
+            {/* Buttons */}
+            <div className="d-flex justify-content-between mt-3">
+              <button type="reset" className="btn btn-secondary">
+                Clear
+              </button>
+              <button
+                type="submit"
+                className="btn btn-success"
+                disabled={loading}
+              >
+                {loading ? (
+                  <span className="spinner-border spinner-border-sm"></span>
+                ) : (
+                  "Submit"
+                )}
+              </button>
+            </div>
           </form>
         </div>
       </div>

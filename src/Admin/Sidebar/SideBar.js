@@ -122,7 +122,7 @@ function SideBar() {
             Manage Ads
           </li>
           </Link>
-{/*           
+          
           <Link
             to="/admin/AddManagement/Logo"
             className="text-decoration-none text-dark"
@@ -130,7 +130,7 @@ function SideBar() {
             <li className="p-2 rounded hover-effect">
             <i class="fa-solid fa-upload text-success me-2"></i> Update Logo
           </li>
-          </Link> */}
+          </Link>
           
         </ul>
 

@@ -3,9 +3,8 @@ import Navbar from "../Header/Navbar";
 
 function Team() {
   return (
-    <div className="container-fluid">
-            <Navbar />
-
+    <div className="">
+      <Navbar />
 
       {/* Main Content */}
       <div className="p-2">
@@ -172,53 +171,52 @@ function Team() {
           </div>
         </div>
         {/* Helper Member 6 */}
-<div className="col-lg-3 col-md-4 col-sm-6 mb-4">
-  <div className="card shadow-sm p-3">
-    <img
-      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQH5sFjZPx1Yzi1b9_FpQzrxqgsjv2DPAp81Q&s"
-      className="img-fluid rounded-circle mx-auto d-block"
-      style={{ width: "80px", height: "80px" }}
-      alt="Profile"
-    />
-    <div className="card-body text-center">
-      <h6 className="fw-bold">Neha Verma</h6>
-      <p className="text-muted">Finance Assistant</p>
-    </div>
-  </div>
-</div>
+        <div className="col-lg-3 col-md-4 col-sm-6 mb-4">
+          <div className="card shadow-sm p-3">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQH5sFjZPx1Yzi1b9_FpQzrxqgsjv2DPAp81Q&s"
+              className="img-fluid rounded-circle mx-auto d-block"
+              style={{ width: "80px", height: "80px" }}
+              alt="Profile"
+            />
+            <div className="card-body text-center">
+              <h6 className="fw-bold">Neha Verma</h6>
+              <p className="text-muted">Finance Assistant</p>
+            </div>
+          </div>
+        </div>
 
-{/* Helper Member 7 */}
-<div className="col-lg-3 col-md-4 col-sm-6 mb-4">
-  <div className="card shadow-sm p-3">
-    <img
-      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVQESaKXUs1TS_lGe3HWrXR1CC2iZTupXXtQ&s"
-      className="img-fluid rounded-circle mx-auto d-block"
-      style={{ width: "80px", height: "80px" }}
-      alt="Profile"
-    />
-    <div className="card-body text-center">
-      <h6 className="fw-bold">Rohan Kulkarni</h6>
-      <p className="text-muted">IT Support</p>
-    </div>
-  </div>
-</div>
+        {/* Helper Member 7 */}
+        <div className="col-lg-3 col-md-4 col-sm-6 mb-4">
+          <div className="card shadow-sm p-3">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVQESaKXUs1TS_lGe3HWrXR1CC2iZTupXXtQ&s"
+              className="img-fluid rounded-circle mx-auto d-block"
+              style={{ width: "80px", height: "80px" }}
+              alt="Profile"
+            />
+            <div className="card-body text-center">
+              <h6 className="fw-bold">Rohan Kulkarni</h6>
+              <p className="text-muted">IT Support</p>
+            </div>
+          </div>
+        </div>
 
-{/* Helper Member 8 */}
-<div className="col-lg-3 col-md-4 col-sm-6 mb-4">
-  <div className="card shadow-sm p-3">
-    <img
-      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQP9mPGPoE25haZZUIzyem1bIsjMlYSWd-RLw&s"
-      className="img-fluid rounded-circle mx-auto d-block"
-      style={{ width: "80px", height: "80px" }}
-      alt="Profile"
-    />
-    <div className="card-body text-center">
-      <h6 className="fw-bold">Pooja Nair</h6>
-      <p className="text-muted">Community Manager</p>
-    </div>
-  </div>
-</div>
-
+        {/* Helper Member 8 */}
+        <div className="col-lg-3 col-md-4 col-sm-6 mb-4">
+          <div className="card shadow-sm p-3">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQP9mPGPoE25haZZUIzyem1bIsjMlYSWd-RLw&s"
+              className="img-fluid rounded-circle mx-auto d-block"
+              style={{ width: "80px", height: "80px" }}
+              alt="Profile"
+            />
+            <div className="card-body text-center">
+              <h6 className="fw-bold">Pooja Nair</h6>
+              <p className="text-muted">Community Manager</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
 import Axios from "../../Axios";
 import Navbar from "../Header/Navbar";
 
@@ -24,7 +25,7 @@ function UpdateProduct() {
       Axios()
         .get(`/user/search/${searchQuery}`)
         .then((res) => setProductSuggestions(res.data))
-        .catch((err) => console.error("Error fetching suggestions:", err));
+        .catch();
     } else {
       setProductSuggestions([]);
     }
@@ -80,10 +81,26 @@ function UpdateProduct() {
       await Axios().post(`/admin/updateproduct/${selectedProduct}`, data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      alert("Product updated successfully!");
+      toast.success("Product Updated successfully!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+      });
     } catch (error) {
-      console.error("Update error:", error);
-      alert("Failed to update product.");
+      
+      toast.error("Failed to update product.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+      });
     } finally {
       setLoading(false);
     }
@@ -91,6 +108,7 @@ function UpdateProduct() {
 
   return (
     <div>
+      <ToastContainer />
       <Navbar />
       <div className="container p-1 pt-4">
         <div className="card shadow-lg p-4">

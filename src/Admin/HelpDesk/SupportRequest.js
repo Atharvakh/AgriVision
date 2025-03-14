@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
 import Axios from "../../Axios";
 import Navbar from "../Header/Navbar";
 import "./SupportRequest.css"; // Ensure correct path
@@ -38,13 +39,31 @@ function SupportRequest() {
   const copyToClipboard = () => {
     if (!selectedMessage) return;
     navigator.clipboard.writeText(selectedMessage);
+    toast.error("Failed to update logo.", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "dark",
+    });
     setIsPopupOpen(false);
   };
 
   // Handle sending mail with request ID, email, and corresponding message
   const handleSendMail = async (id, email) => {
     if (!messages[id]) {
-      alert("Please enter a message before sending.");
+      alert("");
+      toast.warn("Please enter a message before sending.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+      });
       return;
     }
 
@@ -56,19 +75,47 @@ function SupportRequest() {
         mail: email, // Send email
         message: messages[id], // Get correct message for this request
       });
-
-      console.log("Mail sent successfully:", response.data);
-      alert("Mail sent successfully!");
+      window.location.reload(); // Refresh to fetch new ads
+      toast.success("Mail sent successfully!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+      });
     } catch (error) {
-      console.error("Error sending mail:", error.response || error.message);
-      alert("Failed to send mail!");
+      toast.error("Failed to send mail!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+      });
     } finally {
       setLoading((prev) => ({ ...prev, [id]: false })); // Stop loading for this request
     }
   };
+  
+  // Fetch help requests on component mount
+  useEffect(() => {
+    const fetchHelpRequests = async () => {
+      try {
+        const response = await Axios().get("/admin/ViewHelpCenterList");
+        setHelpRequests(response.data);
+      } catch (error) {
+        console.error("Error fetching help requests:", error);
+      }
+    };
+    fetchHelpRequests();
+  }, []);
 
   return (
     <div>
+      <ToastContainer />
       <Navbar />
 
       {/* Page Header */}
