@@ -1,53 +1,103 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import Roundup from "../../assets/images/Roundup.jpg";
-import "./Details.css";
-import Footer from "../footer/footer.js";
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom"; // 
+import { useProductContext } from "../../context/AppContext";
+import { Heart, ArrowLeft } from "lucide-react"; // 
+import "./Details.css"; // Import external CSS
+import Header from "../header/header";
+
 const Details = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { getSingleProduct, singleProduct, loading, error } =
+    useProductContext();
   const [quantity, setQuantity] = useState(1);
+  const [wishlist, setWishlist] = useState(false); // Wishlist state
 
-  const handleIncrease = () => setQuantity(quantity + 1);
-  const handleDecrease = () => {
-    if (quantity > 1) setQuantity(quantity - 1);
-  };
+  useEffect(() => {
+    getSingleProduct(id);
+  }, [id, getSingleProduct]);
 
-  const addToCart = () => {
-    alert(`Added ${quantity} items to the cart!`);
-  };
+  const increaseQty = () => setQuantity((prev) => prev + 1);
+  const decreaseQty = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+
+  const toggleWishlist = () => setWishlist((prev) => !prev); // Toggle wishlist state
+
+  if (loading) return <p className="product-info">Loading...</p>;
+  if (error)
+    return (
+      <p className="product-info error">
+        {error.message || "An error occurred."}
+      </p>
+    );
+  if (!singleProduct) return <p className="product-info">No product found.</p>;
 
   return (
-    <div className="details-page">
-      <div className="product-container">
-        <div className="product-image">
-          <img src={Roundup} alt="Roundup Herbicide" />
-        </div>
-        <div className="product-details">
-          <h2>Name: Roundup Herbicide</h2>
-          <h3>Price: &#8377; 50.00</h3>
-          <div className="quantity">
-            <label>Qty:</label>
-            <button onClick={handleDecrease} className="qty-button">
-              -
-            </button>
-            <span className="qty-display">{quantity}</span>
-            <button onClick={handleIncrease} className="qty-button">
-              +
-            </button>
+    <>
+      <Header />
+      <div className="details-page">
+        <div className="product-container">
+          {/* Back Button */}
+
+          <h5 className="Arrow">
+            <ArrowLeft size={20} onClick={() => navigate(-1)} />
+          </h5>
+
+          <div className="product-image">
+            <img
+              src={singleProduct?.productimage}
+              alt={singleProduct?.productname || "Product"}
+            />
           </div>
-          <button onClick={addToCart} className="add-to-cart-button">
-            Add to Cart
-          </button>
-          <p className="product-description">
-            Roundup is a herbicide that kills a wide variety of pests, including
-            spider mites, aphids, and maggots. It is commonly used for
-            controlling pests in crops like corn, wheat, soybean, and cotton. It
-            is not suitable for use on livestock or animals. This herbicide is
-            also available in concentrated form. For more information, visit the
-            official website of Roundup Herbicide Company.
-          </p>
+
+          <div className="product-details">
+            {/* Product Header with Wishlist */}
+            <div className="product-header">
+              <h2 className="product-name">{singleProduct?.productname}</h2>
+              <button className="wishlist-btn" onClick={toggleWishlist}>
+                <Heart color={wishlist ? "green" : "black"} />
+              </button>
+            </div>
+
+            <p className="product-category">
+              Category: {singleProduct?.category}
+            </p>
+            <p className="product-company">
+              Brand: {singleProduct?.productcompanyname}
+            </p>
+            <p className="product-price">
+              Price:{" "}
+              <span className="old-price">
+                ₹{singleProduct?.beforediscount}
+              </span>
+              <span className="new-price">
+                {" "}
+                ₹{singleProduct?.afterdiscount}
+              </span>
+            </p>
+
+            {/* Quantity Selector */}
+            <div className="quantity-selector">
+              <label>Quantity:</label>
+              <button className="qty-button" onClick={decreaseQty}>
+                -
+              </button>
+              <span className="qty-display">{quantity}</span>
+              <button className="qty-button" onClick={increaseQty}>
+                +
+              </button>
+            </div>
+
+            {/* Add to Cart Button */}
+            <button className="add-to-cart-button">Add to Cart</button>
+
+            {/* Product Description */}
+            <p className="product-description">
+              {singleProduct?.description || "No description available."}
+            </p>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

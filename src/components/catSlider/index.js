@@ -9,14 +9,17 @@ import "./style.css";
 
 const CatSlider = ({ setSelectedCategory }) => {
   const categories = [
-    { id: null, name: "All Products", image: "your-all-products-image.jpg" }, // Add this
+    { id: null, name: "All Products", image: pests }, // Add this
     { id: "pesticide", name: "Pesticides", image: pests },
     { id: "bio-fertilizer", name: "Bio Fertilizers", image: fertilizers },
     { id: "nutrient", name: "Nutrients", image: chemicals },
   ];
 
+  const [activeCategory, setActiveCategory] = useState(null);
+
   const handleCategoryClick = (categoryId) => {
     setSelectedCategory(categoryId);
+    setActiveCategory(categoryId);
   };
 
   return (
@@ -28,7 +31,9 @@ const CatSlider = ({ setSelectedCategory }) => {
           {categories.map((cat) => (
             <div
               key={cat.id}
-              className="categoryItem"
+              className={`categoryItem ${
+                activeCategory === cat.id ? "active" : ""
+              }`}
               onClick={() => handleCategoryClick(cat.id)}
             >
               <img src={cat.image} alt={cat.name} />

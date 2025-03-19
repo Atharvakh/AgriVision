@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import CatSlider from "../../components/catSlider";
 import Footer from "../../components/footer/footer";
 import Header from "../../components/header/header";

@@ -111,3 +111,14 @@
 .cancel-btn:hover {
   background-color: #cc0000;
 }
+
+.profile-header-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 200px; /* Adjust space between arrow and heading */
+}
+
+.back-arrow {
+  cursor: pointer;
+}

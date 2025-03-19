@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from "react";
+import Header from "../header/header";
+import { useNavigate } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 import "./profile.css";
 
 const ProfilePage = () => {
@@ -82,87 +85,98 @@ const ProfilePage = () => {
       console.error("Error updating profile:", error);
     }
   };
+  const navigate = useNavigate();
 
   if (!user) return <p>Loading profile...</p>;
 
   return (
-    <div className="profile-container">
-      <h2 className="profile-header">My Profile</h2>
-      {!editing ? (
-        <div className="profile-details">
-          <p>
-            <strong>Name:</strong> {user.username}
-          </p>
-          <p>
-            <strong>Email:</strong> {user.email}
-          </p>
-          <p>
-            <strong>Lastname:</strong> {user.endname}
-          </p>
-          <p>
-            <strong>Address:</strong> {user.address}
-          </p>
-          <p>
-            <strong>Contact:</strong> {user.contact}
-          </p>
-          <p>
-            <strong>Occupation:</strong> {user.occupation}
-          </p>
-          <button className="edit-profile-btn" onClick={handleEditClick}>
-            Edit Profile
-          </button>
+    <>
+      <Header />
+      <div className="profile-container">
+        <div className="profile-header-container">
+          <ArrowLeft
+            size={24}
+            className="back-arrow"
+            onClick={() => navigate(-1)}
+          />
+          <h2 className="profile-header">My Profile</h2>
         </div>
-      ) : (
-        <form className="edit-profile-form" onSubmit={handleSubmit}>
-          <label>Lastname:</label>
-          <input
-            type="text"
-            name="endname"
-            value={formData.endname}
-            onChange={handleInputChange}
-          />
-          <br />
+        {!editing ? (
+          <div className="profile-details">
+            <p>
+              <strong>Name:</strong> {user.username}
+            </p>
+            <p>
+              <strong>Email:</strong> {user.email}
+            </p>
+            <p>
+              <strong>Lastname:</strong> {user.endname}
+            </p>
+            <p>
+              <strong>Address:</strong> {user.address}
+            </p>
+            <p>
+              <strong>Contact:</strong> {user.contact}
+            </p>
+            <p>
+              <strong>Occupation:</strong> {user.occupation}
+            </p>
+            <button className="edit-profile-btn" onClick={handleEditClick}>
+              Edit Profile
+            </button>
+          </div>
+        ) : (
+          <form className="edit-profile-form" onSubmit={handleSubmit}>
+            <label>Lastname:</label>
+            <input
+              type="text"
+              name="endname"
+              value={formData.endname}
+              onChange={handleInputChange}
+            />
+            <br />
 
-          <label>Address:</label>
-          <input
-            type="text"
-            name="address"
-            value={formData.address}
-            onChange={handleInputChange}
-          />
-          <br />
+            <label>Address:</label>
+            <input
+              type="text"
+              name="address"
+              value={formData.address}
+              onChange={handleInputChange}
+            />
+            <br />
 
-          <label>Contact:</label>
-          <input
-            type="text"
-            name="contact"
-            value={formData.contact}
-            onChange={handleInputChange}
-          />
-          <br />
+            <label>Contact:</label>
+            <input
+              type="text"
+              name="contact"
+              value={formData.contact}
+              onChange={handleInputChange}
+            />
+            <br />
 
-          <label>Occupation:</label>
-          <input
-            type="text"
-            name="occupation"
-            value={formData.occupation}
-            onChange={handleInputChange}
-          />
-          <br />
+            <label>Occupation:</label>
+            <input
+              type="text"
+              name="occupation"
+              value={formData.occupation}
+              onChange={handleInputChange}
+            />
+            <br />
 
-          <button type="submit" className="save-btn">
-            Save Changes
-          </button>
-          <button
-            type="button"
-            className="cancel-btn"
-            onClick={() => setEditing(false)}
-          >
-            Cancel
-          </button>
-        </form>
-      )}
-    </div>
+            <button type="submit" className="save-btn">
+              Save Changes
+            </button>
+            <button
+              type="button"
+              className="cancel-btn"
+              onClick={() => setEditing(false)}
+            >
+              Cancel
+            </button>
+          </form>
+        )}
+      </div>
+    </>
   );
 };
 

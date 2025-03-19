@@ -43,13 +43,21 @@ export const AppProvider = ({ children }) => {
   // Fetch single product
   const getSingleProduct = async (id) => {
     try {
+      const token = localStorage.getItem("token"); // Fetch auth token
+      if (!token) {
+        console.error("User is not authenticated. Please log in.");
+        return;
+      }
+
       const response = await fetch(
         `https://spring-boot-agrivision-1.onrender.com/api/v1/auth/user/product/id/${id}`,
         {
-          method: "POST",
+          method: "POST", // Change to POST
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // Ensure Authorization header is included
           },
+          body: JSON.stringify({}), // Include empty body as required
         }
       );
 
@@ -58,10 +66,9 @@ export const AppProvider = ({ children }) => {
       }
 
       const data = await response.json();
-      setSingleProduct(data);
-      console.log("Fetched single product:", data);
-    } catch (err) {
-      console.error("Error fetching single product:", err);
+      setSingleProduct(data); // Update state with the fetched product
+    } catch (error) {
+      console.error("Error fetching single product:", error);
     }
   };
 

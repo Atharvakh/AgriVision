@@ -1,5 +1,6 @@
 .cat_slider_Main .slick-slide {
   padding-right: 10px;
+  max-width: 300px;
 }
 
 .cat_slider_Main .item {
@@ -49,6 +50,7 @@
 /* Category Selection Section */
 .categorySections {
   display: flex;
+  width: 500px;
   justify-content: center;
   gap: 15px;
   margin-bottom: 20px;
