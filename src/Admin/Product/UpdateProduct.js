@@ -110,6 +110,21 @@ function UpdateProduct() {
     <div>
       <ToastContainer />
       <Navbar />
+      {/* Main Content */}
+      <div className="p-2">
+        <div className="w-10 d-flex start-0 gap-1 justify-content-start">
+          <i class="fa-solid fa-house mr-2"></i>
+          <h6 className="">
+            <small>Product</small>
+          </h6>
+          <h6 className="">
+            <small>/</small>
+          </h6>
+          <h6 className="">
+            <small>Update</small>
+          </h6>
+        </div>
+      </div>
       <div className="container p-1 pt-4">
         <div className="card shadow-lg p-4">
           <h2 className="text-center text-primary fw-bold">Update Product</h2>

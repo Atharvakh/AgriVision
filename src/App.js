@@ -15,7 +15,6 @@ import ManageLogo from "./Admin/AdManageMent/ManageLogo";
 import HomeAdmin from "./Admin/Dashboard/Home";
 import Setting from "./Admin/Dashboard/Setting";
 import Team from "./Admin/Dashboard/Team";
-import OrderHistory from "./Admin/HelpDesk/OrderHistory";
 import SupportRequest from "./Admin/HelpDesk/SupportRequest";
 import HomePage from "./Admin/HomePage";
 import AdminDashboard from "./Admin/Layout/AdminDashboard";
@@ -24,6 +23,8 @@ import AddProduct from "./Admin/Product/AddProduct";
 import StockView from "./Admin/Product/StockView";
 import UpdateProduct from "./Admin/Product/UpdateProduct";
 import ViewProduct from "./Admin/Product/ViewProduct";
+import OrderHistory from "./Admin/Order/OrderHistory";
+import OrderManagement from "./Admin/Order/OrderManagement";
 
 const App = () => {
   return (
@@ -56,7 +57,7 @@ const App = () => {
 
           <Route path="AddManagement/Add" element={<ManageAdd />} />
           <Route path="AddManagement/Logo" element={<ManageLogo />} />
-          {/* <Route path="HelpDesk/OrderManagement" element={<OrderManagement />} /> */}
+          <Route path="HelpDesk/OrderManagement" element={<OrderManagement />} />
           <Route path="HelpDesk/Orderhistory" element={<OrderHistory />} />
           <Route path="HelpDesk/SupportRequest" element={<SupportRequest />} />
         </Route>

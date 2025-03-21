@@ -232,13 +232,13 @@ function ManageAdd() {
       {/* Display Uploaded Ads */}
       <div className="container p-4 bg-white rounded shadow">
         <div className="row">
-          {ads.map((ad) => (
-            <div key={ad.id} className="col-lg-3 w-50 mb-3 d-flex">
+          {ads.slice(1,).map((ad) => (
+            <div key={ad.id} className="col-lg-5 w-100 mb-3 d-flex">
               <div className="text-center">
                 <h6>{ad.id}</h6>
                 <img
                   src={ad.addurl}
-                  className="w-50 rounded shadow"
+                  className="w-100 rounded shadow"
                   alt="Uploaded Ad"
                 />
               </div>

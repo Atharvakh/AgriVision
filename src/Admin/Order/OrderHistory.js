@@ -1,5 +1,5 @@
 import React from "react";
-import Navbar from "../Header/Navbar";
+import Navbar from "../Header/Navbar"; 
 
 function OrderHistory() {
   const orders = [
@@ -68,7 +68,7 @@ function OrderHistory() {
         <div className="w-10 d-flex start-0 gap-1 justify-content-start">
           <i class="fa-solid fa-house mr-2"></i>
           <h6 className="">
-            <small>Help Desk</small>
+            <small>Order Desk</small>
           </h6>
           <h6 className="">
             <small>/</small>

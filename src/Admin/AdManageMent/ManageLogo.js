@@ -141,7 +141,7 @@ function ManageLogo() {
           <div className="p-4 rounded text-center">
             <img
               src={logo[0].addurl}
-              className="w-25 rounded shadow-lg"
+              className="w-75 rounded shadow-lg"
               alt="Uploaded Logo"
             />
           </div>

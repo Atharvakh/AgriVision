@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import logo from "../../assets/images/AgriVision (8).png"; // Import the image
+import Axios from "../../Axios";
 import "./SideBar.css"; // Adjust the path if needed
 
 function SideBar() {
   const navigate = useNavigate();
+  const [logom, setLogo] = useState([]);
 
   useEffect(() => {
     const tok = localStorage.getItem("tok");
@@ -14,6 +15,15 @@ function SideBar() {
     }
   }, [navigate]);
 
+  useEffect(() => {
+    const fetchLogo = async () => {
+      try {
+        const response = await Axios().get("/admin/add");
+        setLogo(response.data);
+      } catch (error) {}
+    };
+    fetchLogo();
+  }, []);
   return (
     <div>
       {/* Sidebar */}
@@ -25,32 +35,29 @@ function SideBar() {
           borderBottomRightRadius: "20px",
         }}
       >
-        
-        <div className=" text-center">
-          <img
-            src={logo}
-            alt="AgriVision Logo"
-            style={{ width: "120px", height: "auto" }}
-          />
+        <div className="text-center">
+          {logom.length > 0 && logom[0].addurl ? (
+            <img
+              src={logom[0].addurl}
+              alt="Logo"
+              style={{ width: "120px", height: "auto" }}
+            />
+          ) : (
+            <p>Loading...</p> // Show a placeholder if the image isn't available
+          )}
         </div>
+
         <ul className="list-unstyled pt-2">
-          
-        <h6 className=" text-body-tertiary fs-20">
-          <small>Dashboard</small>
-        </h6>
-          <Link
-            to="/admin/home"
-            className="text-decoration-none text-dark"
-          >
+          <h6 className=" text-body-tertiary fs-20">
+            <small>Dashboard</small>
+          </h6>
+          <Link to="/admin/home" className="text-decoration-none text-dark">
             <li className="p-2 rounded hover-effect">
               <i className="fas fa-chart-line text-danger me-2"></i> Home
             </li>
           </Link>
 
-          <Link
-            to="/admin/team"
-            className="text-decoration-none text-dark"
-          >
+          <Link to="/admin/team" className="text-decoration-none text-dark">
             <li className="p-2 rounded hover-effect">
               <i class="fa-solid fa-people-group text-info me-1"></i> Team
             </li>
@@ -63,7 +70,6 @@ function SideBar() {
             <i className="fas fa-cog text-success me-2"></i> Settings
           </li>
           </Link> */}
-          
         </ul>
         <h6 className=" text-body-tertiary fs-20">
           <small>Product</small>
@@ -74,39 +80,38 @@ function SideBar() {
             className="text-decoration-none text-dark"
           >
             <li className="p-2 rounded hover-effect">
-            <i class="fa-solid fa-plus text-primary me-2"></i> Add Product
-          </li>
+              <i class="fa-solid fa-plus text-primary me-2"></i> Add Product
+            </li>
           </Link>
-          
+
           <Link
             to="/admin/product/update"
             className="text-decoration-none text-dark"
           >
             <li className="p-2 rounded hover-effect">
-            <i class="fa-solid fa-wand-magic-sparkles text-warning me-1"></i>{" "}
-            Update Product
-          </li>
+              <i class="fa-solid fa-wand-magic-sparkles text-warning me-1"></i>{" "}
+              Update Product
+            </li>
           </Link>
-          
+
           <Link
             to="/admin/product/view"
             className="text-decoration-none text-dark"
           >
             <li className="p-2 rounded hover-effect">
-            <i class="fa-solid fa-magnifying-glass text-success me-2"></i> View
-            Products
-          </li>
+              <i class="fa-solid fa-magnifying-glass text-success me-2"></i>{" "}
+              View Products
+            </li>
           </Link>
-          
+
           <Link
             to="/admin/product/stock"
             className="text-decoration-none text-dark"
           >
             <li className="p-2 rounded hover-effect">
-            <i class="fa-solid fa-database text-danger me-2"></i> Stock Alert
-          </li>
+              <i class="fa-solid fa-database text-danger me-2"></i> Stock Alert
+            </li>
           </Link>
-          
         </ul>
 
         <h6 className=" text-body-tertiary fs-20">
@@ -118,20 +123,19 @@ function SideBar() {
             className="text-decoration-none text-dark"
           >
             <li className="p-2 rounded hover-effect">
-            <i class="fa-solid fa-rectangle-ad text-danger-emphasis me-2"></i>{" "}
-            Manage Ads
-          </li>
+              <i class="fa-solid fa-rectangle-ad text-danger-emphasis me-2"></i>{" "}
+              Manage Ads
+            </li>
           </Link>
-          
+
           <Link
             to="/admin/AddManagement/Logo"
             className="text-decoration-none text-dark"
           >
             <li className="p-2 rounded hover-effect">
-            <i class="fa-solid fa-upload text-success me-2"></i> Update Logo
-          </li>
+              <i class="fa-solid fa-upload text-success me-2"></i> Update Logo
+            </li>
           </Link>
-          
         </ul>
 
         <h6 className=" text-body-tertiary fs-20">
@@ -139,33 +143,39 @@ function SideBar() {
         </h6>
         <ul className="list-unstyled">
           <Link
-            to="/admin/HelpDesk/Orderhistory"
-            className="text-decoration-none text-dark"
-          >
-            <li className="p-2 rounded hover-effect">
-            <i class="fa-solid fa-folder-open text-info me-2"></i>Order History
-          </li>
-          </Link>
-          
-          <Link
             to="/admin/HelpDesk/SupportRequest"
             className="text-decoration-none text-dark"
           >
             <li className="p-2 rounded hover-effect">
-            <i class="fa-solid fa-phone text-warning me-2"></i> Support Requests
-          </li>
+              <i class="fa-solid fa-phone text-warning me-2"></i> Support
+              Requests
+            </li>
           </Link>
-          
-          {/* <Link
+        </ul>
+
+        <h6 className=" text-body-tertiary fs-20">
+          <small>Order Desk</small>
+        </h6>
+        <ul className="list-unstyled">
+          <Link
+            to="/admin/HelpDesk/Orderhistory"
+            className="text-decoration-none text-dark"
+          >
+            <li className="p-2 rounded hover-effect">
+              <i class="fa-solid fa-folder-open text-info me-2"></i>Order
+              History
+            </li>
+          </Link>
+
+          <Link
             to="/admin/HelpDesk/OrderManagement"
             className="text-decoration-none text-dark"
           >
             <li className="p-2 rounded hover-effect">
-            <i class="fa-solid fa-truck-fast text-info-emphasis me-1"></i> Order
-            Management
-          </li>
-          </Link> */}
-
+              <i class="fa-solid fa-truck-fast text-info-emphasis me-1"></i>{" "}
+              Order Management
+            </li>
+          </Link>
         </ul>
       </div>
     </div>
