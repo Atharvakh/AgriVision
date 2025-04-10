@@ -9,6 +9,8 @@ import Product from "./components/product/index";
 import Home from "./pages/Home/index";
 import SearchResults from "./pages/searchResult";
 import ProfilePage from "./components/userProfile/profile";
+import Wishlist from "./components/Wishlist/Wishlist";
+import Cart from "./components/Cart/cart";
 
 import ManageAdd from "./Admin/AdManageMent/ManageAdd";
 import ManageLogo from "./Admin/AdManageMent/ManageLogo";
@@ -39,6 +41,8 @@ const App = () => {
         <Route path="/search-results" element={<SearchResults />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/product/:id" element={<Details />} />
+        <Route path="/wishlist" element={<Wishlist />} />
+        <Route path="/cart" element={<Cart />} />
 
         <Route path="AdminLogin" element={<AdminLoginPage />} />
         <Route path="AdminHome" element={<HomePage />} />

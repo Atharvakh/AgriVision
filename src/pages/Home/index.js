@@ -6,13 +6,16 @@ import Header from "../../components/header/header";
 import Product from "../../components/product/index";
 import { useProductContext } from "../../context/AppContext"; //
 import HomeSlider from "./slider/index";
+import "./styles.css";
 
 const Home = () => {
-  const { products } = useProductContext();
+  const { products, fetchAllProducts, clearProducts } = useProductContext();
   const [selectedCategory, setSelectedCategory] = useState(null);
 
-  console.log("Selected Category:", selectedCategory);
-  console.log("Products from context:", products);
+  useEffect(() => {
+    clearProducts();
+    fetchAllProducts(); //fetch all products on Home mount
+  }, []);
 
   const normalizeCategory = (category) => {
     if (!category) return "";

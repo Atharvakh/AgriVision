@@ -1,0 +1,122 @@
+.wishlist-container {
+  padding: 40px;
+  text-align: center;
+}
+
+.wishlist-grid {
+  padding-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.wishlist-item {
+  position: relative;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  padding: 15px;
+  width: 250px;
+  text-align: center;
+  transition: transform 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.wishlist-item:hover {
+  transform: translateY(-5px);
+}
+
+.wishlist-item img {
+  width: 100%;
+  height: 180px;
+  object-fit: contain;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.wishlist-item h3 {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 10px 0 5px;
+  color: #333;
+}
+
+.wishlist-item p {
+  font-size: 14px;
+  color: #666;
+  margin: 5px 0;
+}
+
+.price-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.current-price {
+  font-size: 16px;
+  font-weight: bold;
+  color: #27ae60;
+}
+
+.original-price {
+  font-size: 14px;
+  color: #888;
+  text-decoration: line-through;
+}
+
+.discount-badge {
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  background: #fcd34d;
+  color: #000;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  z-index: 10;
+}
+
+.remove-btn {
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background 0.2s ease-in-out;
+  margin-top: 10px;
+}
+
+.top-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 10px 20px;
+  position: relative;
+  margin-bottom: 20px; /* Optional: adds space below the top nav */
+}
+
+.wishlist-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0 auto;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.back-icon {
+  position: absolute;
+  left: 20px;
+  cursor: pointer;
+  color: #333;
+  transition: color 0.3s;
+}

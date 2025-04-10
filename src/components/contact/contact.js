@@ -11,10 +11,12 @@ const Contact = () => {
     message: "",
   });
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const maxLength = 400;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
     setFormData({
       ...formData,
       [name]: value,
@@ -26,18 +28,42 @@ const Contact = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const token = localStorage.getItem("token");
+
     if (formData.message.length > maxLength) {
       setError(`Message cannot exceed ${maxLength} characters.`);
-    } else {
-      // Handle form submission (e.g., send data to an API)
-      console.log("Form Data Submitted:", formData);
-      setFormData({
-        name: "",
-        email: "",
-        message: "",
-      });
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        "https://spring-boot-agrivision-1.onrender.com/api/v1/auth/user/serviceMsgSend",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ message: formData.message }),
+        }
+      );
+
+      if (response.ok) {
+        setSuccess("Message sent successfully!");
+        setFormData({ name: "", email: "", message: "" });
+      } else if (response.status === 400) {
+        setError("User not found.");
+      } else if (response.status === 401) {
+        setError("Unauthorized. Please log in.");
+      } else if (response.status === 404) {
+        setError("API endpoint not found.");
+      } else {
+        setError("Something went wrong. Please try again later.");
+      }
+    } catch (error) {
+      setError("Network error. Please check your connection.");
     }
   };
 
@@ -51,23 +77,9 @@ const Contact = () => {
         <div className="feedbackForm">
           <form onSubmit={handleSubmit}>
             <label htmlFor="name">Name</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
+            <input type="text" id="name" name="name" />
             <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
+            <input type="email" id="email" name="email" />
             <label htmlFor="message">Message</label>
             <textarea
               id="message"
@@ -82,6 +94,7 @@ const Contact = () => {
               {formData.message.length}/{maxLength} characters
             </p>
             {error && <p style={{ color: "red" }}>{error}</p>}
+            {success && <p style={{ color: "green" }}>{success}</p>}
             <button type="submit">Submit</button>
           </form>
         </div>

@@ -8,9 +8,10 @@ export const AppProvider = ({ children }) => {
   const [singleProduct, setSingleProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const clearProducts = () => setProducts([]);
 
   // Fetch all products
-  const fetchProducts = async () => {
+  const fetchAllProducts = async () => {
     try {
       setLoading(true);
       setError(null);
@@ -31,10 +32,35 @@ export const AppProvider = ({ children }) => {
 
       const data = await response.json();
       setProducts(data);
-      console.log("Fetched products:", data);
     } catch (err) {
       setError(err.message);
-      console.error("Error fetching products:", err);
+      setProducts([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 🔍 Fetch products by search query
+  const fetchProductsByQuery = async (query) => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const response = await fetch(
+        `https://spring-boot-agrivision-1.onrender.com/api/v1/auth/user/search/${encodeURIComponent(
+          query
+        )}`
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setProducts(data);
+    } catch (err) {
+      setError(err.message);
+      setProducts([]);
     } finally {
       setLoading(false);
     }
@@ -43,21 +69,21 @@ export const AppProvider = ({ children }) => {
   // Fetch single product
   const getSingleProduct = async (id) => {
     try {
-      const token = localStorage.getItem("token"); // Fetch auth token
+      const token = localStorage.getItem("token");
       if (!token) {
-        console.error("User is not authenticated. Please log in.");
+        console.error("User is not authenticated.");
         return;
       }
 
       const response = await fetch(
         `https://spring-boot-agrivision-1.onrender.com/api/v1/auth/user/product/id/${id}`,
         {
-          method: "POST", // Change to POST
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`, // Ensure Authorization header is included
+            Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({}), // Include empty body as required
+          body: JSON.stringify({}),
         }
       );
 
@@ -66,20 +92,29 @@ export const AppProvider = ({ children }) => {
       }
 
       const data = await response.json();
-      setSingleProduct(data); // Update state with the fetched product
+      setSingleProduct(data);
     } catch (error) {
       console.error("Error fetching single product:", error);
     }
   };
 
-  // Call fetchProducts when the provider mounts
+  // Fetch all products on mount
   useEffect(() => {
-    fetchProducts();
+    fetchAllProducts();
   }, []);
 
   return (
     <ProductContext.Provider
-      value={{ products, singleProduct, loading, error, getSingleProduct }}
+      value={{
+        products,
+        loading,
+        error,
+        singleProduct,
+        getSingleProduct,
+        fetchProductsByQuery, // ✅ make this available
+        fetchAllProducts,
+        clearProducts,
+      }}
     >
       {children}
     </ProductContext.Provider>
